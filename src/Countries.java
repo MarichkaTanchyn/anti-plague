@@ -16,7 +16,7 @@ abstract class Countries {
     }
 
 
-    Countries startInfection(InfectionProcess process) {
+    synchronized Countries startInfection(InfectionProcess process) {
         isInfected = true;
         process.getNotInfected().remove(id);
         process.getInfected().put(id, this);
@@ -24,11 +24,8 @@ abstract class Countries {
         return this;
     }
 
-    Countries infectPeople() {
-        if (numberOfInfected < numberOfPeople) {
-            numberOfInfected += 10;
-            System.out.printf("Infected in " + this.getClass() + " %d/%d\n", numberOfInfected, numberOfPeople);
-        }
+    synchronized Countries infectPeople() {
+        numberOfInfected += 10;
         return this;
     }
 

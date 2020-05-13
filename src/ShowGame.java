@@ -70,7 +70,5 @@ public class ShowGame extends JFrame {
 
         validate();
 
-        new InfectionProcess();
-
     }
 }

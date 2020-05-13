@@ -12,7 +12,6 @@ public class Show2dMenu extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
 
-
         JButton b1 = new JButton("Easy");
         JButton b2 = new JButton("Medium");
         JButton b3 = new JButton("Hard");
@@ -29,6 +28,7 @@ public class Show2dMenu extends JFrame {
         b1.addActionListener(actionEvent -> {
             ShowGame showGame = new ShowGame();
             this.dispose();
+            new InfectionProcess();
         });
         b2.addActionListener(actionEvent -> {
             ShowGame showGame = new ShowGame();

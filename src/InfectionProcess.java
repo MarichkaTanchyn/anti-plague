@@ -1,7 +1,8 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Timer;
-import java.util.TimerTask;
+
 
 public class InfectionProcess extends Timer {
 
@@ -15,6 +16,7 @@ public class InfectionProcess extends Timer {
     private int numberOfPeople;
     private int numberOfInfectedPeople;
     private int numberOfRecoveredPeople;
+    private boolean isOpen = true;
 
 
 
@@ -22,8 +24,8 @@ public class InfectionProcess extends Timer {
         infected = new HashMap<>();
         notInfected = new HashMap<>();
         address = this;
-        speedOfInfection = 100;
-        speedOfSpreading = 200;
+        speedOfInfection = 1000;
+        speedOfSpreading = 2000;
         numberOfInfectedPeople = 0;
         numberOfRecoveredPeople = 0;
         notInfected.put(1, new China(200));
@@ -49,54 +51,16 @@ public class InfectionProcess extends Timer {
 
         numberOfCountries = notInfected.size();
         notInfected.get(1).startInfection(this);
-        Thread thread;
         while (true) {
             if (numberOfPeople > numberOfInfectedPeople) {
-                synchronized (this) {
-                    thread = new Thread(() -> {
-                        synchronized (this) {
-                            try {
-                                Thread.sleep(speedOfSpreading);
-                                infected.forEach((k, v) -> {
-                                    v.infectPeople();
-                                    numberOfInfectedPeople+=10;
-                                });
-                                Thread.currentThread().interrupt();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                });
-                    thread.start();
-                }
+                infectPeopleInCountries();
             } else break;
 
             if (!notInfected.isEmpty()) {
-                synchronized (this) {
-                    thread = new Thread(() -> {
-                        synchronized (this) {
-                            try {
-                                Thread.sleep(speedOfInfection);
-                            } catch (InterruptedException e) {
-
-                            }
-                            boolean isOk = false;
-                            int i = 1;
-                            while (!isOk) {
-                                if (!infected.containsKey(i)) isOk = true;
-                                else i = (int) (1 + Math.random() * numberOfCountries);
-                            }
-                            country = notInfected.get(i);
-                            country.startInfection(address);
-                            Thread.currentThread().interrupt();
-                        }
-                    });
-
-                    thread.start();
-                }
+                infectCountry();
             }
         }
-        System.out.println("HELLO");
+        System.out.println(numberOfPeople + " " + numberOfInfectedPeople);
     }
 
     public HashMap<Integer, Countries> getInfected() {
@@ -105,5 +69,61 @@ public class InfectionProcess extends Timer {
 
     public HashMap<Integer, Countries> getNotInfected() {
         return notInfected;
+    }
+
+    public synchronized void infectPeopleInCountries() {
+        while (!isOpen && !notInfected.isEmpty()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.out.println("1 Interrupted");
+            }
+        }
+
+        try {
+            wait(speedOfSpreading);
+        } catch (InterruptedException ignore) {
+        }
+        System.out.println("---- ---- ----");
+        for (int i = 0; i < 2; i++) {
+            isOpen = false;
+
+            infected.forEach((k, v) -> {
+                if (v.getNumberOfPeople() > v.getNumberOfInfected()) {
+                    v.infectPeople();
+                    numberOfInfectedPeople += 10;
+                    System.out.println("Inf Process: " + v.getClass() + ": " + v.getNumberOfInfected() + "/" + v.getNumberOfPeople());
+                }
+            });
+        }
+        System.out.println("---- ---- ----");
+
+        notifyAll();
+    }
+
+    public synchronized void infectCountry() {
+        while (isOpen) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.out.println("1 Interrupted");
+            }
+        }
+        try {
+            wait(speedOfInfection);
+        } catch (InterruptedException ignore) {}
+        isOpen = true;
+        boolean isOk = false;
+        int i = 1;
+        while (!isOk) {
+            if (!infected.containsKey(i)) isOk = true;
+            else i = (int) (1 + Math.random() * numberOfCountries);
+        }
+        country = notInfected.get(i);
+        country.startInfection(address);
+
+        notifyAll();
     }
 }
