@@ -85,19 +85,18 @@ public class InfectionProcess extends Timer {
             wait(speedOfSpreading);
         } catch (InterruptedException ignore) {
         }
-        System.out.println("---- ---- ----");
-        for (int i = 0; i < 2; i++) {
+        System.out.println("\n\n---- ---- ----\nProcess:");
+
             isOpen = false;
 
             infected.forEach((k, v) -> {
                 if (v.getNumberOfPeople() > v.getNumberOfInfected()) {
                     v.infectPeople();
                     numberOfInfectedPeople += 10;
-                    System.out.println("Inf Process: " + v.getClass() + ": " + v.getNumberOfInfected() + "/" + v.getNumberOfPeople());
+                    System.out.println("         (" + k + ") " + v.getClass() + ": " + v.getNumberOfInfected() + "/" + v.getNumberOfPeople());
                 }
             });
-        }
-        System.out.println("---- ---- ----");
+        System.out.println("---- ---- ----\n\n");
 
         notifyAll();
     }
