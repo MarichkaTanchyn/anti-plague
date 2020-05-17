@@ -1,45 +1,31 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ShowGame extends JFrame {
     private int points;
+    private static JLabel numberOfPoints = new JLabel("Number of points - 0");
+    private static int secs;
+    private static int mins;
+    private static JLabel timer;
+
 
     public ShowGame() {
 
+        secs = 0;
+        mins = 0;
+        timer = new JLabel("0" + mins + " : 0" + secs);
+
         setTitle("Your Game");
-        setSize(1350, 628);
+
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
 
-
         JPanel mainGame = new JPanel();
-
-
-        JPanel features = new JPanel();
-        JTabbedPane tabs = new JTabbedPane();
-        tabs.addTab("Game", mainGame);
-        tabs.addTab("Settings", features);
-
-        setLayout(new BorderLayout());
-
-//        mainGame.addKeyListener(new KeyListener() {
-//            @Override
-//            public void keyTyped(KeyEvent keyEvent) {
-//
-//            }
-//
-//            @Override
-//            public void keyPressed(KeyEvent keyEvent) {
-//
-//            }
-//
-//            @Override
-//            public void keyReleased(KeyEvent keyEvent) {
-//
-//            }
-//        });
+        mainGame.setSize(1350, 628);
 
         mainGame.setLayout(new GridLayout(3, 3, 10, 10));
 
@@ -59,7 +45,6 @@ public class ShowGame extends JFrame {
         JButton bSpain = new JButton();
         JButton bLithuania = new JButton();
 
-
         bUSA.setIcon(new ImageIcon("./images/USA.png"));
         bCanada.setIcon(new ImageIcon("./images/Canada.png"));
         bFrance.setIcon(new ImageIcon("./images/france.png"));
@@ -74,16 +59,10 @@ public class ShowGame extends JFrame {
         bJapan.setIcon(new ImageIcon("./images/japan.png"));
         bBelarus.setIcon(new ImageIcon("./images/belarus.png"));
 
-//        KeyAdapter listener = new KeyAdapter(){
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                super.keyPressed(e);
-//                if (e.getKeyCode() ==)
-//            }
-//        };
-
         ActionListener pointsListener = (e) -> {
-            points++;
+            System.out.println(points++);
+            numberOfPoints.setText("Number of points - " + points);
+
         };
 
         bUSA.addActionListener(pointsListener);
@@ -102,7 +81,53 @@ public class ShowGame extends JFrame {
         bUkraine.addActionListener(pointsListener);
         bSpain.addActionListener(pointsListener);
 
+        JPanel updates = new JPanel();
+        JTabbedPane tabs = new JTabbedPane();
+        tabs.addTab("Game", mainGame);
+        tabs.addTab("Updates", updates);
 
+        updates.setSize(1350, 628);
+
+        setLayout(new BorderLayout());
+        JPanel southPanel = new JPanel();
+        JPanel northPanel = new JPanel();
+
+
+        southPanel.setLayout(new GridLayout(5, 2, 10, 10));
+        updates.add(southPanel,BorderLayout.PAGE_END);
+
+
+
+        northPanel.setLayout(new FlowLayout());
+        updates.add(northPanel,BorderLayout.PAGE_START);
+
+
+        JButton p1 = new JButton("Everyone clean there hands --> 10p.");
+        JButton p2 = new JButton("Go outside without mask is forbidden --> 50p.");
+        JButton p3 = new JButton("Go outside without gloves is forbidden --> 50p.");
+        JButton p4 = new JButton("Max number of people in transport 20 persons --> 100p");
+        JButton p5 = new JButton("Free masks for people --> 150p");
+        JButton p6 = new JButton("Free gloves for people --> 150p");
+        JButton p7 = new JButton("Closing borders --> 250");
+        JButton p8 = new JButton("Max number of people in supermarket 8 person --> 300p");
+        JButton p9 = new JButton("Social distancing --> 350p ");
+        JButton p10 = new JButton("Quarantine mode --> 450");
+
+
+        northPanel.add(numberOfPoints);
+        northPanel.add(timer);
+
+
+        southPanel.add(p1);
+        southPanel.add(p2);
+        southPanel.add(p3);
+        southPanel.add(p4);
+        southPanel.add(p5);
+        southPanel.add(p6);
+        southPanel.add(p7);
+        southPanel.add(p8);
+        southPanel.add(p9);
+        southPanel.add(p10);
 
         mainGame.add(bUkraine);
         mainGame.add(bUSA);
@@ -120,18 +145,49 @@ public class ShowGame extends JFrame {
         mainGame.add(bLithuania);
         mainGame.add(bSpain);
 
+
+
+
+
         add(tabs);
-        validate();
+        pack();
+        setLocationRelativeTo(null);
+
+    }
+
+    void layouts(){
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 
     }
 
     public static void easyType() {
-        new ShowGame();
-        int input = JOptionPane.showOptionDialog(null, "You started game, China is infected!", "The title", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+        int input = JOptionPane.showOptionDialog(null, "  " + "\n" +
+                "You started game, China is infected!", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
         if (input == JOptionPane.OK_OPTION) {
+            new ShowGame();
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if (secs == 59) {
+                        mins++;
+                        secs = 0;
+                    } else secs++;
+
+                    if (secs < 10 && mins < 10) {
+                        timer.setText("0" + mins + " : 0" + secs);
+                    } else if (secs < 10) {
+                        timer.setText(mins + " : 0" + secs);
+                    } else if (mins < 10) {
+                        timer.setText("0" + mins + " : " + secs);
+                    } else timer.setText(mins + " :  " + secs);
+                }
+            }, 0, 1000);
             new InfectionProcess();
+
         }
     }
-
 }
+
+

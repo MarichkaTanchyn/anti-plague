@@ -46,6 +46,7 @@ public class Show2dMenu extends JFrame {
 
 
         add(mainMenu);
+        setLocationRelativeTo(null);
 
     }
 }

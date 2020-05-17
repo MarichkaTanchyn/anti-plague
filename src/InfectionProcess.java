@@ -1,5 +1,6 @@
 import java.util.HashMap;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class InfectionProcess {
@@ -49,15 +50,18 @@ public class InfectionProcess {
 
         numberOfCountries = notInfected.size();
         notInfected.get(1).startInfection(this);
-        while (true) {
-            if (numberOfPeople > numberOfInfectedPeople) {
-                infectPeopleInCountries();
-            } else break;
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (numberOfPeople >= numberOfInfectedPeople) {
+                    infectPeopleInCountries();
+                } else cancel();
 
-            if (!notInfected.isEmpty()) {
-                infectCountry();
+                if (!notInfected.isEmpty()) {
+                    infectCountry();
+                }
             }
-        }
+        }, 0, 5000);
         System.out.println(numberOfPeople + " " + numberOfInfectedPeople);
     }
 

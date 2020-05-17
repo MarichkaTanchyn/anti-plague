@@ -43,7 +43,7 @@ public class Menu extends JFrame {
         setSize(360,120);
 
 
-
+        setLocationRelativeTo(null);
 
     }
 }
