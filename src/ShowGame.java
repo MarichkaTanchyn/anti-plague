@@ -1,21 +1,47 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
 public class ShowGame extends JFrame {
+    private int points;
+
     public ShowGame() {
-        JPanel jPanel = new JPanel();
 
         setTitle("Your Game");
-        setSize(1350,628);
+        setSize(1350, 628);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
 
+
+        JPanel mainGame = new JPanel();
+
+
+        JPanel features = new JPanel();
+        JTabbedPane tabs = new JTabbedPane();
+        tabs.addTab("Game", mainGame);
+        tabs.addTab("Settings", features);
+
         setLayout(new BorderLayout());
 
-        jPanel.setLayout(new GridLayout(3,3,10,10));
+//        mainGame.addKeyListener(new KeyListener() {
+//            @Override
+//            public void keyTyped(KeyEvent keyEvent) {
+//
+//            }
+//
+//            @Override
+//            public void keyPressed(KeyEvent keyEvent) {
+//
+//            }
+//
+//            @Override
+//            public void keyReleased(KeyEvent keyEvent) {
+//
+//            }
+//        });
+
+        mainGame.setLayout(new GridLayout(3, 3, 10, 10));
 
         JButton bUSA = new JButton();
         JButton bCanada = new JButton();
@@ -30,6 +56,9 @@ public class ShowGame extends JFrame {
         JButton bGreenland = new JButton();
         JButton bJapan = new JButton();
         JButton bBelarus = new JButton();
+        JButton bSpain = new JButton();
+        JButton bLithuania = new JButton();
+
 
         bUSA.setIcon(new ImageIcon("./images/USA.png"));
         bCanada.setIcon(new ImageIcon("./images/Canada.png"));
@@ -53,22 +82,56 @@ public class ShowGame extends JFrame {
 //            }
 //        };
 
-        add(jPanel);
-        jPanel.add(bUkraine);
-        jPanel.add(bUSA);
-        jPanel.add(bCanada);
-        jPanel.add(bPoland);
-        jPanel.add(bItaly);
-        jPanel.add(bAfrica);
-        jPanel.add(bRussia);
-        jPanel.add(bBelarus);
-        jPanel.add(bChina);
-        jPanel.add(bAustralia);
-        jPanel.add(bGreenland);
-        jPanel.add(bJapan);
-        jPanel.add(bFrance);
+        ActionListener pointsListener = (e) -> {
+            points++;
+        };
 
+        bUSA.addActionListener(pointsListener);
+        bAfrica.addActionListener(pointsListener);
+        bAustralia.addActionListener(pointsListener);
+        bBelarus.addActionListener(pointsListener);
+        bCanada.addActionListener(pointsListener);
+        bChina.addActionListener(pointsListener);
+        bFrance.addActionListener(pointsListener);
+        bGreenland.addActionListener(pointsListener);
+        bItaly.addActionListener(pointsListener);
+        bJapan.addActionListener(pointsListener);
+        bLithuania.addActionListener(pointsListener);
+        bPoland.addActionListener(pointsListener);
+        bRussia.addActionListener(pointsListener);
+        bUkraine.addActionListener(pointsListener);
+        bSpain.addActionListener(pointsListener);
+
+
+
+        mainGame.add(bUkraine);
+        mainGame.add(bUSA);
+        mainGame.add(bCanada);
+        mainGame.add(bPoland);
+        mainGame.add(bItaly);
+        mainGame.add(bAfrica);
+        mainGame.add(bRussia);
+        mainGame.add(bBelarus);
+        mainGame.add(bChina);
+        mainGame.add(bAustralia);
+        mainGame.add(bGreenland);
+        mainGame.add(bJapan);
+        mainGame.add(bFrance);
+        mainGame.add(bLithuania);
+        mainGame.add(bSpain);
+
+        add(tabs);
         validate();
 
     }
+
+    public static void easyType() {
+        new ShowGame();
+        int input = JOptionPane.showOptionDialog(null, "You started game, China is infected!", "The title", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+        if (input == JOptionPane.OK_OPTION) {
+            new InfectionProcess();
+        }
+    }
+
 }

@@ -1,10 +1,8 @@
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Timer;
 
 
-public class InfectionProcess extends Timer {
+
+public class InfectionProcess {
 
     private HashMap<Integer, Countries> infected;
     private HashMap<Integer, Countries> notInfected;
@@ -97,7 +95,6 @@ public class InfectionProcess extends Timer {
                 }
             });
         System.out.println("---- ---- ----\n\n");
-
         notifyAll();
     }
 

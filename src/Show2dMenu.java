@@ -4,7 +4,16 @@ import java.awt.*;
 public class Show2dMenu extends JFrame {
 
     Show2dMenu() {
-        JPanel jPanel = new JPanel();
+
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultLookAndFeelDecorated(true);
+        setSize(360, 120);
+
+
+        JPanel mainMenu = new JPanel();
+
+
 
         setLayout(new GridLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -17,34 +26,26 @@ public class Show2dMenu extends JFrame {
         JButton b3 = new JButton("Hard");
         JButton b4 = new JButton("Go back to Main Manu");
 
-        jPanel.add(b1,gbc);
-        jPanel.add(b2,gbc);
-        jPanel.add(b3,gbc);
-        jPanel.add(b4,gbc);
-        b4.addActionListener(actionEvent -> {
-            Menu menu = new Menu();
-            this.dispose();
-        });
+        mainMenu.add(b1, gbc);
+        mainMenu.add(b2, gbc);
+        mainMenu.add(b3, gbc);
+        mainMenu.add(b4, gbc);
+
         b1.addActionListener(actionEvent -> {
-            ShowGame showGame = new ShowGame();
             this.dispose();
-            new InfectionProcess();
+            ShowGame.easyType();
         });
         b2.addActionListener(actionEvent -> {
-            ShowGame showGame = new ShowGame();
             this.dispose();
+            ShowGame showGame = new ShowGame();
         });
         b3.addActionListener(actionEvent -> {
-            ShowGame showGame = new ShowGame();
             this.dispose();
+            ShowGame showGame = new ShowGame();
         });
 
-        add(jPanel);
 
+        add(mainMenu);
 
-        setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setDefaultLookAndFeelDecorated(true);
-        setSize(360,120);
     }
 }
