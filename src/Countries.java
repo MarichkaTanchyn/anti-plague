@@ -16,7 +16,7 @@ abstract class Countries {
     }
 
 
-    synchronized Countries startInfection(InfectionProcess process) {
+    synchronized Countries startInfection(Mode process) {
         isInfected = true;
         process.getNotInfected().remove(id);
         process.getInfected().put(id, this);

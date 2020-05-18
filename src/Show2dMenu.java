@@ -37,11 +37,12 @@ public class Show2dMenu extends JFrame {
         });
         b2.addActionListener(actionEvent -> {
             this.dispose();
-            ShowGame showGame = new ShowGame();
+            ShowGame.mediumType();
+
         });
         b3.addActionListener(actionEvent -> {
             this.dispose();
-            ShowGame showGame = new ShowGame();
+            ShowGame.hardType();
         });
 
 

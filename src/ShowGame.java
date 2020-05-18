@@ -23,9 +23,9 @@ public class ShowGame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        setSize(1350, 628);
 
         JPanel mainGame = new JPanel();
-        mainGame.setSize(1350, 628);
 
         mainGame.setLayout(new GridLayout(3, 3, 10, 10));
 
@@ -64,7 +64,6 @@ public class ShowGame extends JFrame {
             numberOfPoints.setText("Number of points - " + points);
 
         };
-
         bUSA.addActionListener(pointsListener);
         bAfrica.addActionListener(pointsListener);
         bAustralia.addActionListener(pointsListener);
@@ -86,22 +85,11 @@ public class ShowGame extends JFrame {
         tabs.addTab("Game", mainGame);
         tabs.addTab("Updates", updates);
 
-        updates.setSize(1350, 628);
 
-        setLayout(new BorderLayout());
+        updates.setLayout(new BorderLayout());
+
         JPanel southPanel = new JPanel();
-        JPanel northPanel = new JPanel();
-
-
         southPanel.setLayout(new GridLayout(5, 2, 10, 10));
-        updates.add(southPanel,BorderLayout.PAGE_END);
-
-
-
-        northPanel.setLayout(new FlowLayout());
-        updates.add(northPanel,BorderLayout.PAGE_START);
-
-
         JButton p1 = new JButton("Everyone clean there hands --> 10p.");
         JButton p2 = new JButton("Go outside without mask is forbidden --> 50p.");
         JButton p3 = new JButton("Go outside without gloves is forbidden --> 50p.");
@@ -113,10 +101,11 @@ public class ShowGame extends JFrame {
         JButton p9 = new JButton("Social distancing --> 350p ");
         JButton p10 = new JButton("Quarantine mode --> 450");
 
+        p1.addActionListener(actionEvent -> {
+            if (points >= 10) {
 
-        northPanel.add(numberOfPoints);
-        northPanel.add(timer);
-
+            }
+        });
 
         southPanel.add(p1);
         southPanel.add(p2);
@@ -128,6 +117,17 @@ public class ShowGame extends JFrame {
         southPanel.add(p8);
         southPanel.add(p9);
         southPanel.add(p10);
+
+        updates.add(southPanel, BorderLayout.SOUTH);
+
+
+        JPanel northPanel = new JPanel();
+        northPanel.setLayout(new FlowLayout());
+        updates.add(northPanel, BorderLayout.NORTH);
+
+
+        northPanel.add(numberOfPoints);
+        northPanel.add(timer);
 
         mainGame.add(bUkraine);
         mainGame.add(bUSA);
@@ -146,16 +146,13 @@ public class ShowGame extends JFrame {
         mainGame.add(bSpain);
 
 
-
-
-
         add(tabs);
         pack();
         setLocationRelativeTo(null);
 
     }
 
-    void layouts(){
+    void layouts() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 
@@ -184,7 +181,67 @@ public class ShowGame extends JFrame {
                     } else timer.setText(mins + " :  " + secs);
                 }
             }, 0, 1000);
-            new InfectionProcess();
+            new EasyMod();
+
+        }
+
+
+    }
+
+    public static void mediumType () {
+        int inputM = JOptionPane.showOptionDialog(null, "Hello, it's a medium type of game" + "\n" +
+                "To see time of game or to buy an updates click updates \n" +
+                "You started game, China is infected!", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+        if (inputM == JOptionPane.OK_OPTION) {
+            new ShowGame();
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if (secs == 59) {
+                        mins++;
+                        secs = 0;
+                    } else secs++;
+
+                    if (secs < 10 && mins < 10) {
+                        timer.setText("0" + mins + " : 0" + secs);
+                    } else if (secs < 10) {
+                        timer.setText(mins + " : 0" + secs);
+                    } else if (mins < 10) {
+                        timer.setText("0" + mins + " : " + secs);
+                    } else timer.setText(mins + " :  " + secs);
+                }
+            }, 0, 1000);
+            new MediumMode();
+
+        }
+    }
+
+    public static void hardType () {
+        int inputM = JOptionPane.showOptionDialog(null, "Hello, it's a hard type of game" + "\n" +
+                "To see time of game or to buy an updates click updates \n" +
+                "You started game, China is infected!", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+        if (inputM == JOptionPane.OK_OPTION) {
+            new ShowGame();
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if (secs == 59) {
+                        mins++;
+                        secs = 0;
+                    } else secs++;
+
+                    if (secs < 10 && mins < 10) {
+                        timer.setText("0" + mins + " : 0" + secs);
+                    } else if (secs < 10) {
+                        timer.setText(mins + " : 0" + secs);
+                    } else if (mins < 10) {
+                        timer.setText("0" + mins + " : " + secs);
+                    } else timer.setText(mins + " :  " + secs);
+                }
+            }, 0, 1000);
+            new HardMode();
 
         }
     }

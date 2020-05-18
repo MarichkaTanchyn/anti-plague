@@ -3,14 +3,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class InfectionProcess {
+public class Mode {
 
     private HashMap<Integer, Countries> infected;
     private HashMap<Integer, Countries> notInfected;
     private int speedOfInfection;
     private int numberOfCountries;
     private int speedOfSpreading;
-    private InfectionProcess address;
+    private Mode address;
     private Countries country;
     private int numberOfPeople;
     private int numberOfInfectedPeople;
@@ -19,7 +19,7 @@ public class InfectionProcess {
 
 
 
-    InfectionProcess() {
+    Mode() {
         infected = new HashMap<>();
         notInfected = new HashMap<>();
         address = this;
@@ -89,15 +89,15 @@ public class InfectionProcess {
         }
         System.out.println("\n\n---- ---- ----\nProcess:");
 
-            isOpen = false;
+        isOpen = false;
 
-            infected.forEach((k, v) -> {
-                if (v.getNumberOfPeople() > v.getNumberOfInfected()) {
-                    v.infectPeople();
-                    numberOfInfectedPeople += 10;
-                    System.out.println("         (" + k + ") " + v.getClass() + ": " + v.getNumberOfInfected() + "/" + v.getNumberOfPeople());
-                }
-            });
+        infected.forEach((k, v) -> {
+            if (v.getNumberOfPeople() > v.getNumberOfInfected()) {
+                v.infectPeople();
+                numberOfInfectedPeople += 10;
+                System.out.println("         (" + k + ") " + v.getClass() + ": " + v.getNumberOfInfected() + "/" + v.getNumberOfPeople());
+            }
+        });
         System.out.println("---- ---- ----\n\n");
         notifyAll();
     }
