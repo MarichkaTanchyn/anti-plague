@@ -8,5 +8,8 @@ public class HardMode extends Mode {
         setPeriod(period);
         int peopleInfectionTime = 5000;
         setPeopleInfectionTime(peopleInfectionTime);
+
+        setRecoveringConstant(0.05);
+        setInfectedPerDay(50);
     }
 }

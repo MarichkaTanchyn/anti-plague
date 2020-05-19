@@ -7,6 +7,7 @@ abstract class Countries {
     private int id;
     private static int idProvider = 1;
 
+
     public Countries(int numberOfPeople) {
         this.numberOfPeople = numberOfPeople;
         numberOfInfected = 0;
@@ -21,11 +22,18 @@ abstract class Countries {
         process.getNotInfected().remove(id);
         process.getInfected().put(id, this);
         System.out.println("Country " + this.getClass() + " is infected!");
+        ShowGame.infectCountryMassage(this);
         return this;
     }
 
     synchronized Countries infectPeople() {
-        numberOfInfected += 10;
+        numberOfInfected += Mode.getInfectedPerDay();
+        return this;
+    }
+
+    synchronized Countries recoverPeople() {
+        numberOfRecovered += Mode.getRecoveredPerDay();
+        numberOfInfected -= Mode.getRecoveredPerDay();
         return this;
     }
 
@@ -44,5 +52,4 @@ abstract class Countries {
     public boolean isInfected() {
         return isInfected;
     }
-
 }

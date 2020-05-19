@@ -9,5 +9,8 @@ public class MediumMode extends Mode {
         setPeriod(period);
         int peopleInfectionTime = 7000;
         setPeopleInfectionTime(peopleInfectionTime);
+
+        setRecoveringConstant(0.08);
+        setInfectedPerDay(25);
     }
 }

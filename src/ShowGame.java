@@ -1,18 +1,24 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ShowGame extends JFrame {
+
     private int points;
     private static JLabel numberOfPoints = new JLabel("Number of points - 0");
-    private static JLabel numberOfInfectedPeople = new JLabel("Number of infected People - 0");
-    int numberOFInfected;
-
+    private static JLabel numberOfInfectedPeople = new JLabel("Currently infected People - 0");
+    private static JLabel numberOfRecoveredPeople = new JLabel("Currently recovered People - 0");
+    private static int numberOfInfected;
     private static int secs;
     private static int mins;
     private static JLabel timer;
+    private static ArrayList<JButton> arrayListOfUpdates;
+
+
+    JButton p1, p2, p3, p4, p5, p6, p7, p8, p9, p10;
 
 
     public ShowGame() {
@@ -20,6 +26,7 @@ public class ShowGame extends JFrame {
         secs = 0;
         mins = 0;
         timer = new JLabel("0" + mins + " : 0" + secs);
+        arrayListOfUpdates = new ArrayList<>();
 
         setTitle("Your Game");
 
@@ -89,28 +96,12 @@ public class ShowGame extends JFrame {
         tabs.addTab("Updates", updates);
 
 
-
         updates.setLayout(new BorderLayout());
 
         JPanel southPanel = new JPanel();
         southPanel.setLayout(new GridLayout(5, 2, 10, 10));
-        JButton p1 = new JButton("Everyone clean there hands --> 10p.");
-        JButton p2 = new JButton("Go outside without mask is forbidden --> 50p.");
-        JButton p3 = new JButton("Go outside without gloves is forbidden --> 50p.");
-        JButton p4 = new JButton("Max number of people in transport 20 persons --> 100p");
-        JButton p5 = new JButton("Free masks for people --> 150p");
-        JButton p6 = new JButton("Free gloves for people --> 150p");
-        JButton p7 = new JButton("Closing borders --> 250");
-        JButton p8 = new JButton("Max number of people in supermarket 8 person --> 300p");
-        JButton p9 = new JButton("Social distancing --> 350p ");
-        JButton p10 = new JButton("Quarantine mode --> 450");
 
-        p1.addActionListener(actionEvent -> {
-            if (points >= 10) {
-
-            }
-        });
-
+        updates();
 
         southPanel.add(p1);
         southPanel.add(p2);
@@ -130,9 +121,13 @@ public class ShowGame extends JFrame {
         northPanel.setLayout(new FlowLayout());
         updates.add(northPanel, BorderLayout.NORTH);
 
-        numberOfInfectedPeople.setText("Number of infected People - " + getNumberOFInfected());
-        northPanel.add(numberOfInfectedPeople);
+        numberOfInfectedPeople.setText("Number of infected People - " + numberOfInfected);
+        numberOfInfectedPeople.setForeground(Color.RED);
+        numberOfRecoveredPeople.setForeground(Color.GREEN);
         northPanel.add(numberOfPoints);
+        northPanel.add(numberOfRecoveredPeople);
+        northPanel.add(numberOfInfectedPeople);
+
         northPanel.add(timer);
 
 
@@ -159,9 +154,117 @@ public class ShowGame extends JFrame {
 
     }
 
+    void updates() {
+
+        p1 = new JButton("Everyone clean there hands --> 10p.");
+        p2 = new JButton("Go outside without mask is forbidden --> 50p.");
+        p3 = new JButton("Go outside without gloves is forbidden --> 50p.");
+        p4 = new JButton("Max number of people in transport 20 persons --> 100p");
+        p5 = new JButton("Free masks for people --> 150p");
+        p6 = new JButton("Free gloves for people --> 150p");
+        p7 = new JButton("Closing borders --> 250");
+        p8 = new JButton("Max number of people in supermarket 8 person --> 300p");
+        p9 = new JButton("Social distancing --> 350p ");
+        p10 = new JButton("Quarantine mode --> 450");
+
+        p1.addActionListener(actionEvent -> {
+            if (points >= 10) {
+                points -= 10;
+                arrayListOfUpdates.add(p1);
+
+                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 10));
+                numberOfPoints.setText("Number of points - " + points);
+
+            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
+        });
+
+        p2.addActionListener(actionEvent -> {
+            if (points >= 50) {
+                points -= 50;
+                arrayListOfUpdates.add(p2);
+
+                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 20));
+                numberOfPoints.setText("Number of points - " + points);
+            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
+        });
+
+        p3.addActionListener(actionEvent -> {
+            if (points >= 50) {
+                points -= 50;
+                arrayListOfUpdates.add(p1);
+                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 50));
+                numberOfPoints.setText("Number of points - " + points);
+            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
+        });
+
+        p4.addActionListener(actionEvent -> {
+            if (points >= 100) {
+                points -= 100;
+                arrayListOfUpdates.add(p1);
+                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 100));
+                numberOfPoints.setText("Number of points - " + points);
+            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
+        });
+
+        p5.addActionListener(actionEvent -> {
+            if (points >= 150) {
+                points -= 150;
+                arrayListOfUpdates.add(p1);
+                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 150));
+                numberOfPoints.setText("Number of points - " + points);
+            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
+        });
+
+        p6.addActionListener(actionEvent -> {
+            if (points >= 150) {
+                points -= 150;
+                arrayListOfUpdates.add(p1);
+                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 150));
+                numberOfPoints.setText("Number of points - " + points);
+            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
+        });
+
+        p7.addActionListener(actionEvent -> {
+            if (points >= 250) {
+                points -= 250;
+                arrayListOfUpdates.add(p1);
+                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 250));
+                numberOfPoints.setText("Number of points - " + points);
+            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
+        });
+
+        p8.addActionListener(actionEvent -> {
+            if (points >= 300) {
+                points -= 300;
+                arrayListOfUpdates.add(p1);
+                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 300));
+                numberOfPoints.setText("Number of points - " + points);
+            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
+        });
+
+        p9.addActionListener(actionEvent -> {
+            if (points >= 350) {
+                points -= 350;
+                arrayListOfUpdates.add(p1);
+                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 350));
+                numberOfPoints.setText("Number of points - " + points);
+            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
+        });
+
+        p10.addActionListener(actionEvent -> {
+            if (points >= 450) {
+                points -= 450;
+                arrayListOfUpdates.add(p1);
+                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 450));
+                numberOfPoints.setText("Number of points - " + points);
+            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
+
+        });
+
+    }
 
 
-    static void timerInGame(){
+    static void timerInGame() {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
@@ -188,14 +291,13 @@ public class ShowGame extends JFrame {
 
         if (input == JOptionPane.OK_OPTION) {
             timerInGame();
-            new EasyMod();
-
+            EasyMod easyMod = new EasyMod();
+            numberOfInfected = easyMod.getNumberOfInfectedPeople();
         }
     }
 
 
-
-    public static void mediumType () {
+    public static void mediumType() {
         new ShowGame();
         int inputM = JOptionPane.showOptionDialog(null, "Hello, it's a medium type of game" + "\n" +
                 "To see time of game or to buy an updates click updates \n" +
@@ -208,25 +310,40 @@ public class ShowGame extends JFrame {
         }
     }
 
-    public static void hardType () {
+    public static void hardType() {
         new ShowGame();
         int inputM = JOptionPane.showOptionDialog(null, "Hello, it's a hard type of game" + "\n" +
                 "To see time of game or to buy an updates click updates \n" +
                 "You started game, China is infected!", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
         if (inputM == JOptionPane.OK_OPTION) {
-           timerInGame();
+            timerInGame();
             new HardMode();
 
         }
     }
-
-    public void setNumberOFInfected(int numberOFInfected) {
-        this.numberOFInfected = numberOFInfected;
+    public static void infectCountryMassage(Countries country){
+        JOptionPane.showMessageDialog(null,country + " is infected");
     }
 
-    public int getNumberOFInfected() {
-        return  numberOFInfected;
+    public static JLabel getNumberOfInfectedPeople() {
+        return numberOfInfectedPeople;
+    }
+
+    public static int getNumberOfInfected() {
+        return numberOfInfected;
+    }
+
+    public static void setNumberOfInfected(int numberOfInfected) {
+        ShowGame.numberOfInfected = numberOfInfected;
+    }
+
+    public static ArrayList<JButton> getArrayListOfUpdates() {
+        return arrayListOfUpdates;
+    }
+
+    public static JLabel getNumberOfRecoveredPeople() {
+        return numberOfRecoveredPeople;
     }
 }
 

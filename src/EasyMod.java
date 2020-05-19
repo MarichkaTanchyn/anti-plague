@@ -4,15 +4,14 @@ public class EasyMod extends Mode {
     EasyMod() {
         super();
         periodOfInfection();
-        int countriesInfectedTime = 20000;
+        int countriesInfectedTime = 2000; // 20000
         setCountriesInfectionTime(countriesInfectedTime);
-        int period = 15000;
+        int period = 1000; // 15000
         setPeriod(period);
         int peopleInfectionTime = 10000;
         setPeopleInfectionTime(peopleInfectionTime);
-
-
-
+        setRecoveringConstant(0.1);
+        setInfectedPerDay(10);
 
     }
 }
