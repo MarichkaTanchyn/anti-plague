@@ -7,6 +7,9 @@ import java.util.TimerTask;
 public class ShowGame extends JFrame {
     private int points;
     private static JLabel numberOfPoints = new JLabel("Number of points - 0");
+    private static JLabel numberOfInfectedPeople = new JLabel("Number of infected People - 0");
+    int numberOFInfected;
+
     private static int secs;
     private static int mins;
     private static JLabel timer;
@@ -60,7 +63,7 @@ public class ShowGame extends JFrame {
         bBelarus.setIcon(new ImageIcon("./images/belarus.png"));
 
         ActionListener pointsListener = (e) -> {
-            System.out.println(points++);
+            points++;
             numberOfPoints.setText("Number of points - " + points);
 
         };
@@ -86,6 +89,7 @@ public class ShowGame extends JFrame {
         tabs.addTab("Updates", updates);
 
 
+
         updates.setLayout(new BorderLayout());
 
         JPanel southPanel = new JPanel();
@@ -107,6 +111,7 @@ public class ShowGame extends JFrame {
             }
         });
 
+
         southPanel.add(p1);
         southPanel.add(p2);
         southPanel.add(p3);
@@ -125,9 +130,11 @@ public class ShowGame extends JFrame {
         northPanel.setLayout(new FlowLayout());
         updates.add(northPanel, BorderLayout.NORTH);
 
-
+        numberOfInfectedPeople.setText("Number of infected People - " + getNumberOFInfected());
+        northPanel.add(numberOfInfectedPeople);
         northPanel.add(numberOfPoints);
         northPanel.add(timer);
+
 
         mainGame.add(bUkraine);
         mainGame.add(bUSA);
@@ -152,98 +159,74 @@ public class ShowGame extends JFrame {
 
     }
 
-    void layouts() {
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 
+    static void timerInGame(){
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (secs == 59) {
+                    mins++;
+                    secs = 0;
+                } else secs++;
+
+                if (secs < 10 && mins < 10) {
+                    timer.setText("0" + mins + " : 0" + secs);
+                } else if (secs < 10) {
+                    timer.setText(mins + " : 0" + secs);
+                } else if (mins < 10) {
+                    timer.setText("0" + mins + " : " + secs);
+                } else timer.setText(mins + " :  " + secs);
+            }
+        }, 0, 1000);
     }
 
     public static void easyType() {
+        new ShowGame();
         int input = JOptionPane.showOptionDialog(null, "  " + "\n" +
                 "You started game, China is infected!", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
         if (input == JOptionPane.OK_OPTION) {
-            new ShowGame();
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    if (secs == 59) {
-                        mins++;
-                        secs = 0;
-                    } else secs++;
-
-                    if (secs < 10 && mins < 10) {
-                        timer.setText("0" + mins + " : 0" + secs);
-                    } else if (secs < 10) {
-                        timer.setText(mins + " : 0" + secs);
-                    } else if (mins < 10) {
-                        timer.setText("0" + mins + " : " + secs);
-                    } else timer.setText(mins + " :  " + secs);
-                }
-            }, 0, 1000);
+            timerInGame();
             new EasyMod();
 
         }
-
-
     }
 
+
+
     public static void mediumType () {
+        new ShowGame();
         int inputM = JOptionPane.showOptionDialog(null, "Hello, it's a medium type of game" + "\n" +
                 "To see time of game or to buy an updates click updates \n" +
                 "You started game, China is infected!", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
         if (inputM == JOptionPane.OK_OPTION) {
-            new ShowGame();
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    if (secs == 59) {
-                        mins++;
-                        secs = 0;
-                    } else secs++;
-
-                    if (secs < 10 && mins < 10) {
-                        timer.setText("0" + mins + " : 0" + secs);
-                    } else if (secs < 10) {
-                        timer.setText(mins + " : 0" + secs);
-                    } else if (mins < 10) {
-                        timer.setText("0" + mins + " : " + secs);
-                    } else timer.setText(mins + " :  " + secs);
-                }
-            }, 0, 1000);
+            timerInGame();
             new MediumMode();
 
         }
     }
 
     public static void hardType () {
+        new ShowGame();
         int inputM = JOptionPane.showOptionDialog(null, "Hello, it's a hard type of game" + "\n" +
                 "To see time of game or to buy an updates click updates \n" +
                 "You started game, China is infected!", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
         if (inputM == JOptionPane.OK_OPTION) {
-            new ShowGame();
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    if (secs == 59) {
-                        mins++;
-                        secs = 0;
-                    } else secs++;
-
-                    if (secs < 10 && mins < 10) {
-                        timer.setText("0" + mins + " : 0" + secs);
-                    } else if (secs < 10) {
-                        timer.setText(mins + " : 0" + secs);
-                    } else if (mins < 10) {
-                        timer.setText("0" + mins + " : " + secs);
-                    } else timer.setText(mins + " :  " + secs);
-                }
-            }, 0, 1000);
+           timerInGame();
             new HardMode();
 
         }
+    }
+
+    public void setNumberOFInfected(int numberOFInfected) {
+        this.numberOFInfected = numberOFInfected;
+    }
+
+    public int getNumberOFInfected() {
+        return  numberOFInfected;
     }
 }
 

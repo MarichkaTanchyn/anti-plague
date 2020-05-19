@@ -7,15 +7,16 @@ public class Mode {
 
     private HashMap<Integer, Countries> infected;
     private HashMap<Integer, Countries> notInfected;
-    private int speedOfInfection;
+    private int countriesInfectionTime;
     private int numberOfCountries;
-    private int speedOfSpreading;
+    private int peopleInfectionTime;
     private Mode address;
     private Countries country;
     private int numberOfPeople;
     private int numberOfInfectedPeople;
     private int numberOfRecoveredPeople;
     private boolean isOpen = true;
+    private int period;
 
 
 
@@ -23,8 +24,9 @@ public class Mode {
         infected = new HashMap<>();
         notInfected = new HashMap<>();
         address = this;
-        speedOfInfection = 1000;
-        speedOfSpreading = 2000;
+        period = 5000;
+        countriesInfectionTime = 1000;
+        peopleInfectionTime = 2000;
         numberOfInfectedPeople = 0;
         numberOfRecoveredPeople = 0;
         notInfected.put(1, new China(200));
@@ -49,6 +51,18 @@ public class Mode {
         }
 
         numberOfCountries = notInfected.size();
+
+    }
+
+    public HashMap<Integer, Countries> getInfected() {
+        return infected;
+    }
+
+    public HashMap<Integer, Countries> getNotInfected() {
+        return notInfected;
+    }
+
+    void periodOfInfection(){
         notInfected.get(1).startInfection(this);
         new Timer().schedule(new TimerTask() {
             @Override
@@ -61,16 +75,8 @@ public class Mode {
                     infectCountry();
                 }
             }
-        }, 0, 5000);
+        }, 0, getPeriod());
         System.out.println(numberOfPeople + " " + numberOfInfectedPeople);
-    }
-
-    public HashMap<Integer, Countries> getInfected() {
-        return infected;
-    }
-
-    public HashMap<Integer, Countries> getNotInfected() {
-        return notInfected;
     }
 
     public synchronized void infectPeopleInCountries() {
@@ -84,7 +90,7 @@ public class Mode {
         }
 
         try {
-            wait(speedOfSpreading);
+            wait(getPeopleInfectionTime());
         } catch (InterruptedException ignore) {
         }
         System.out.println("\n\n---- ---- ----\nProcess:");
@@ -112,7 +118,8 @@ public class Mode {
             }
         }
         try {
-            wait(speedOfInfection);
+            wait(getCountriesInfectionTime());
+            System.out.println(getCountriesInfectionTime());
         } catch (InterruptedException ignore) {}
         isOpen = true;
         boolean isOk = false;
@@ -125,5 +132,33 @@ public class Mode {
         country.startInfection(address);
 
         notifyAll();
+    }
+
+    public void setPeriod(int period) {
+        this.period = period;
+    }
+
+    public void setPeopleInfectionTime(int peopleInfectionTime) {
+        this.peopleInfectionTime = peopleInfectionTime;
+    }
+
+    public void setCountriesInfectionTime(int countriesInfectionTime) {
+        this.countriesInfectionTime = countriesInfectionTime;
+    }
+
+    public int getPeopleInfectionTime() {
+        return peopleInfectionTime;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public int getCountriesInfectionTime() {
+        return countriesInfectionTime;
+    }
+
+    public int getNumberOfInfectedPeople() {
+        return numberOfInfectedPeople;
     }
 }
