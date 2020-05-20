@@ -8,9 +8,9 @@ import java.util.TimerTask;
 public class ShowGame extends JFrame {
 
     private int points;
-    private static JLabel numberOfPoints = new JLabel("Number of points - 0");
-    private static JLabel numberOfInfectedPeople = new JLabel("Currently infected People - 0");
-    private static JLabel numberOfRecoveredPeople = new JLabel("Currently recovered People - 0");
+    private static JLabel numberOfPoints;
+    private static JLabel numberOfInfectedPeople;
+    private static JLabel numberOfRecoveredPeople;
     private static int numberOfInfected;
     private static int secs;
     private static int mins;
@@ -25,7 +25,10 @@ public class ShowGame extends JFrame {
 
         secs = 0;
         mins = 0;
-        timer = new JLabel("0" + mins + " : 0" + secs);
+        timer = new JLabel("0" + mins + " : 0" + secs, JLabel.RIGHT);
+        numberOfPoints = new JLabel("Number of points - 0", JLabel.LEFT);
+        numberOfInfectedPeople = new JLabel("Currently infected People - 0", JLabel.CENTER);
+        numberOfRecoveredPeople = new JLabel("Currently recovered People - 0", JLabel.CENTER);
         arrayListOfUpdates = new ArrayList<>();
 
         setTitle("Your Game");
@@ -114,20 +117,21 @@ public class ShowGame extends JFrame {
         southPanel.add(p9);
         southPanel.add(p10);
 
+
         updates.add(southPanel, BorderLayout.SOUTH);
 
 
         JPanel northPanel = new JPanel();
-        northPanel.setLayout(new FlowLayout());
+        northPanel.setLayout(new GridLayout(1, 4, 10,10));
         updates.add(northPanel, BorderLayout.NORTH);
 
         numberOfInfectedPeople.setText("Number of infected People - " + numberOfInfected);
         numberOfInfectedPeople.setForeground(Color.RED);
-        numberOfRecoveredPeople.setForeground(Color.GREEN);
+        numberOfRecoveredPeople.setForeground(new Color(0, 122, 43));
+
         northPanel.add(numberOfPoints);
         northPanel.add(numberOfRecoveredPeople);
         northPanel.add(numberOfInfectedPeople);
-
         northPanel.add(timer);
 
 
@@ -168,8 +172,9 @@ public class ShowGame extends JFrame {
         p10 = new JButton("Quarantine mode --> 450");
 
         p1.addActionListener(actionEvent -> {
-            if (points >= 10) {
-                points -= 10;
+//            TODO: 10 points
+            if (points >= 1) {
+                points -= 1;
                 arrayListOfUpdates.add(p1);
 
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 10));
@@ -179,8 +184,9 @@ public class ShowGame extends JFrame {
         });
 
         p2.addActionListener(actionEvent -> {
-            if (points >= 50) {
-                points -= 50;
+            //            TODO: 50 points
+            if (points >= 1) {
+                points -= 1;
                 arrayListOfUpdates.add(p2);
 
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 20));
@@ -189,8 +195,9 @@ public class ShowGame extends JFrame {
         });
 
         p3.addActionListener(actionEvent -> {
-            if (points >= 50) {
-                points -= 50;
+            //            TODO: 50 points
+            if (points >= 1) {
+                points -= 1;
                 arrayListOfUpdates.add(p1);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 50));
                 numberOfPoints.setText("Number of points - " + points);
@@ -198,8 +205,9 @@ public class ShowGame extends JFrame {
         });
 
         p4.addActionListener(actionEvent -> {
-            if (points >= 100) {
-                points -= 100;
+            //            TODO: 100 points
+            if (points >= 1) {
+                points -= 1;
                 arrayListOfUpdates.add(p1);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 100));
                 numberOfPoints.setText("Number of points - " + points);
@@ -207,8 +215,9 @@ public class ShowGame extends JFrame {
         });
 
         p5.addActionListener(actionEvent -> {
-            if (points >= 150) {
-                points -= 150;
+            //            TODO: 150 points
+            if (points >= 1) {
+                points -= 1;
                 arrayListOfUpdates.add(p1);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 150));
                 numberOfPoints.setText("Number of points - " + points);
@@ -216,8 +225,9 @@ public class ShowGame extends JFrame {
         });
 
         p6.addActionListener(actionEvent -> {
-            if (points >= 150) {
-                points -= 150;
+            //            TODO: 150 points
+            if (points >= 1) {
+                points -= 1;
                 arrayListOfUpdates.add(p1);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 150));
                 numberOfPoints.setText("Number of points - " + points);
@@ -225,8 +235,9 @@ public class ShowGame extends JFrame {
         });
 
         p7.addActionListener(actionEvent -> {
-            if (points >= 250) {
-                points -= 250;
+            //            TODO: 250 points
+            if (points >= 1) {
+                points -= 1;
                 arrayListOfUpdates.add(p1);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 250));
                 numberOfPoints.setText("Number of points - " + points);
@@ -234,8 +245,9 @@ public class ShowGame extends JFrame {
         });
 
         p8.addActionListener(actionEvent -> {
-            if (points >= 300) {
-                points -= 300;
+            //            TODO: 300 points
+            if (points >= 1) {
+                points -= 1;
                 arrayListOfUpdates.add(p1);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 300));
                 numberOfPoints.setText("Number of points - " + points);
@@ -243,8 +255,9 @@ public class ShowGame extends JFrame {
         });
 
         p9.addActionListener(actionEvent -> {
-            if (points >= 350) {
-                points -= 350;
+            //            TODO: 350 points
+            if (points >= 1) {
+                points -= 1;
                 arrayListOfUpdates.add(p1);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 350));
                 numberOfPoints.setText("Number of points - " + points);
@@ -252,8 +265,9 @@ public class ShowGame extends JFrame {
         });
 
         p10.addActionListener(actionEvent -> {
-            if (points >= 450) {
-                points -= 450;
+            //            TODO: 450 points
+            if (points >= 1) {
+                points -= 1;
                 arrayListOfUpdates.add(p1);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 450));
                 numberOfPoints.setText("Number of points - " + points);
@@ -264,7 +278,7 @@ public class ShowGame extends JFrame {
     }
 
 
-    static void timerInGame() {
+    synchronized static void timerInGame() {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
@@ -272,7 +286,6 @@ public class ShowGame extends JFrame {
                     mins++;
                     secs = 0;
                 } else secs++;
-
                 if (secs < 10 && mins < 10) {
                     timer.setText("0" + mins + " : 0" + secs);
                 } else if (secs < 10) {
@@ -285,44 +298,49 @@ public class ShowGame extends JFrame {
     }
 
     public static void easyType() {
-        new ShowGame();
-        int input = JOptionPane.showOptionDialog(null, "  " + "\n" +
-                "You started game, China is infected!", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+        int input = JOptionPane.showOptionDialog(null, "Hello, it's a easy type of game" + "\n" +
+                "To see details of game or to buy an updates click updates \n" +
+                "You started game", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
         if (input == JOptionPane.OK_OPTION) {
+            new EasyMod();
+            new ShowGame();
             timerInGame();
-            EasyMod easyMod = new EasyMod();
-            numberOfInfected = easyMod.getNumberOfInfectedPeople();
+        }else{
+            new Menu();
         }
     }
 
 
     public static void mediumType() {
-        new ShowGame();
         int inputM = JOptionPane.showOptionDialog(null, "Hello, it's a medium type of game" + "\n" +
-                "To see time of game or to buy an updates click updates \n" +
-                "You started game, China is infected!", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+                "To see details of game or to buy an updates click updates \n" +
+                "You started game", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
         if (inputM == JOptionPane.OK_OPTION) {
-            timerInGame();
             new MediumMode();
-
+            new ShowGame();
+            timerInGame();
+        }else{
+            new Menu();
         }
     }
 
     public static void hardType() {
-        new ShowGame();
         int inputM = JOptionPane.showOptionDialog(null, "Hello, it's a hard type of game" + "\n" +
-                "To see time of game or to buy an updates click updates \n" +
+                "To see details of game or to buy an updates click updates \n" +
                 "You started game, China is infected!", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
         if (inputM == JOptionPane.OK_OPTION) {
-            timerInGame();
             new HardMode();
+            new ShowGame();
+            timerInGame();
 
+        }else{
+            new Menu();
         }
     }
-    public static void infectCountryMassage(Countries country){
+    public static void infectCountryMassage(String country){
         JOptionPane.showMessageDialog(null,country + " is infected");
     }
 

@@ -116,18 +116,21 @@ public class Mode {
                 ShowGame.getNumberOfInfectedPeople().setText("Currently infected People - " + ShowGame.getNumberOfInfected() + "/" + numberOfPeople);
 
 //                Recovering people
-//                Check if there is any update. If it is so, we will decrease number of infected people and increase recovered people
                 if (!ShowGame.getArrayListOfUpdates().isEmpty()){
                     v.recoverPeople();
                     numberOfRecoveredPeople += recoveredPerDay;
                     System.out.println("Recovered:         (" + k + ") " + v.getClass() + ": " + v.getNumberOfRecovered() + "/" + v.getNumberOfPeople());
 
                 }
+
                 ShowGame.getNumberOfRecoveredPeople().setText("Currently recovered People - " + numberOfRecoveredPeople + "/" +  numberOfInfectedPeople);
 
                 System.out.println("Infected :         (" + k + ") " + v.getClass() + ": " + v.getNumberOfInfected() + "/" + v.getNumberOfPeople());
             }
         });
+        if (numberOfRecoveredPeople >= numberOfInfectedPeople) {
+            System.exit(1);
+        }
 
         System.out.println("---- ---- ----\n\n");
         notifyAll();
@@ -175,9 +178,6 @@ public class Mode {
         return peopleInfectionTime;
     }
 
-    public int getPeriod() {
-        return period;
-    }
 
     public int getCountriesInfectionTime() {
         return countriesInfectionTime;
