@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameView extends JFrame {
 
@@ -15,6 +17,8 @@ public class GameView extends JFrame {
 
     ArrayList<JButton> countryButtons;
     ArrayList<JButton> updateButtons;
+
+    private static Mode mode;
 
     public GameView(String title) {
         super(title);
@@ -66,7 +70,7 @@ public class GameView extends JFrame {
         updates.add(southPanel, BorderLayout.SOUTH);
 
         JPanel northPanel = new JPanel();
-        northPanel.setLayout(new GridLayout(1, 4, 10,10));
+        northPanel.setLayout(new GridLayout(1, 4, 10, 10));
         updates.add(northPanel, BorderLayout.NORTH);
 
         numberOfInfectedPeople.setText("Number of infected People - 0");
@@ -83,10 +87,11 @@ public class GameView extends JFrame {
             mainGame.add(b);
         }
 
+        checkIfGameIsOver(mode);
+
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
-
     }
 
     private void setIcons() {
@@ -119,165 +124,121 @@ public class GameView extends JFrame {
         updateButtons.add(new JButton("Max number of people in supermarket 8 person --> 300p"));
         updateButtons.add(new JButton("Social distancing --> 350p "));
         updateButtons.add(new JButton("Quarantine mode --> 450"));
+
         for (JButton b : updateButtons) {
             b.setFocusable(false);
         }
 
-        updateButtons.get(0).addActionListener(actionEvent -> {
-//            TODO: 10 points
-            if (points >= 1) {
-                points -= 1;
-                arrayListOfUpdates.add(updateButtons.get(0));
-                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 10));
-                numberOfPoints.setText("Number of points - " + points);
-
-            } else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
-        });
-
-        updateButtons.get(1).addActionListener(actionEvent -> {
-            //            TODO: 50 points
-            if (points >= 1) {
-                points -= 1;
-                arrayListOfUpdates.add(updateButtons.get(1));
-
-                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 20));
-                numberOfPoints.setText("Number of points - " + points);
-            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
-        });
-
-        updateButtons.get(2).addActionListener(actionEvent -> {
-            //            TODO: 50 points
-            if (points >= 1) {
-                points -= 1;
-                arrayListOfUpdates.add(updateButtons.get(2));
-                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 50));
-                numberOfPoints.setText("Number of points - " + points);
-            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
-        });
-
-        updateButtons.get(3).addActionListener(actionEvent -> {
-            //            TODO: 100 points
-            if (points >= 1) {
-                points -= 1;
-                arrayListOfUpdates.add(updateButtons.get(3));
-                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 100));
-                numberOfPoints.setText("Number of points - " + points);
-            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
-        });
-
-        updateButtons.get(4).addActionListener(actionEvent -> {
-            //            TODO: 150 points
-            if (points >= 1) {
-                points -= 1;
-                arrayListOfUpdates.add(updateButtons.get(4));
-                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 150));
-                numberOfPoints.setText("Number of points - " + points);
-            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
-        });
-
-        updateButtons.get(5).addActionListener(actionEvent -> {
-            //            TODO: 150 points
-            if (points >= 1) {
-                points -= 1;
-                arrayListOfUpdates.add(updateButtons.get(5));
-                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 150));
-                numberOfPoints.setText("Number of points - " + points);
-            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
-        });
-
-        updateButtons.get(6).addActionListener(actionEvent -> {
-            //            TODO: 250 points
-            if (points >= 1) {
-                points -= 1;
-                arrayListOfUpdates.add(updateButtons.get(6));
-                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 250));
-                numberOfPoints.setText("Number of points - " + points);
-            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
-        });
-
-        updateButtons.get(7).addActionListener(actionEvent -> {
-            //            TODO: 300 points
-            if (points >= 1) {
-                points -= 1;
-                arrayListOfUpdates.add(updateButtons.get(7));
-                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 300));
-                numberOfPoints.setText("Number of points - " + points);
-            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
-        });
-
-        updateButtons.get(8).addActionListener(actionEvent -> {
-            //            TODO: 350 points
-            if (points >= 1) {
-                points -= 1;
-                arrayListOfUpdates.add(updateButtons.get(8));
-                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 350));
-                numberOfPoints.setText("Number of points - " + points);
-            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
-        });
-
-        updateButtons.get(9).addActionListener(actionEvent -> {
-            //            TODO: 450 points
-            if (points >= 1) {
-                points -= 1;
-                arrayListOfUpdates.add(updateButtons.get(9));
-                Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 450));
-                numberOfPoints.setText("Number of points - " + points);
-            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
-
-        });
-
+        updateButtons.get(0).addActionListener(actionEvent -> updatePoints(10, 0));
+        updateButtons.get(1).addActionListener(actionEvent -> updatePoints(50, 1));
+        updateButtons.get(2).addActionListener(actionEvent -> updatePoints(50, 2));
+        updateButtons.get(3).addActionListener(actionEvent -> updatePoints(100, 3));
+        updateButtons.get(4).addActionListener(actionEvent -> updatePoints(150, 4));
+        updateButtons.get(5).addActionListener(actionEvent -> updatePoints(150, 5));
+        updateButtons.get(6).addActionListener(actionEvent -> updatePoints(250, 6));
+        updateButtons.get(7).addActionListener(actionEvent -> updatePoints(300, 7));
+        updateButtons.get(8).addActionListener(actionEvent -> updatePoints(350, 8));
+        updateButtons.get(9).addActionListener(actionEvent -> updatePoints(450, 9));
     }
 
-
-    public static JLabel getTimer() {
-        return timer;
+    void updatePoints(int points, int numbOfButton) {
+        if (this.points >= points) {
+            this.points -= points;
+            arrayListOfUpdates.add(updateButtons.get(numbOfButton));
+            Mode.setRecoveredPerDay((int) (Mode.getRecoveringConstant() * 100)); // TODO: change 100 to this.points
+            numberOfPoints.setText("Number of points - " + this.points);
+        } else JOptionPane.showMessageDialog(null, "YOU NEED MORE POINTS TO BUY IT");
     }
+
 
     public static void easyType() {
-        int input = JOptionPane.showOptionDialog(null, "Hello, it's a easy type of game" + "\n" +
-                "To see details of game or to buy an updates click updates \n" +
-                "You started game", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+        int input = JOptionPane.showOptionDialog(null,
+                "Hello, it's a easy type of game" + "\n" +
+                        "To see details of game or to buy an updates click updates \n" +
+                        "You started game", "Message",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                null,
+                null
+        );
 
         if (input == JOptionPane.OK_OPTION) {
-            new EasyMode();
+            mode = new EasyMode();
             new GameView("Your Game");
             GameTimerModel.timerInGame();
-        }else{
+        } else {
             new MainMenuView();
         }
     }
 
-
     public static void mediumType() {
-        int inputM = JOptionPane.showOptionDialog(null, "Hello, it's a medium type of game" + "\n" +
-                "To see details of game or to buy an updates click updates \n" +
-                "You started game", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+        int inputM = JOptionPane.showOptionDialog(null,
+                "Hello, it's a medium type of game" + "\n" +
+                        "To see details of game or to buy an updates click updates \n" +
+                        "You started game", "Message",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                null,
+                null
+        );
 
         if (inputM == JOptionPane.OK_OPTION) {
-            new MediumMode();
+            mode = new MediumMode();
             new GameView("Your Game");
             GameTimerModel.timerInGame();
-        }else{
+        } else {
             new MainMenuView();
         }
     }
 
     public static void hardType() {
-        int inputM = JOptionPane.showOptionDialog(null, "Hello, it's a hard type of game" + "\n" +
-                "To see details of game or to buy an updates click updates \n" +
-                "You started game, China is infected!", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+        int inputM = JOptionPane.showOptionDialog(null,
+                "Hello, it's a hard type of game" + "\n" +
+                        "To see details of game or to buy an updates click updates \n" +
+                        "You started game, China is infected!", "Message",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                null,
+                null
+        );
 
         if (inputM == JOptionPane.OK_OPTION) {
-            new HardMode();
+            mode = new HardMode();
             new GameView("Your Game");
             GameTimerModel.timerInGame();
 
-        }else{
+        } else {
             new MainMenuView();
         }
     }
-    public static void infectCountryMassage(String country){
-        JOptionPane.showMessageDialog(null,country + " is infected");
+
+    void checkIfGameIsOver(Mode mode) {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (mode.getNumberOfInfectedPeople() != 0 && mode.getNumberOfRecoveredPeople() >= mode.getNumberOfInfectedPeople()) {
+                    myDispose();
+                    cancel();
+                }
+            }
+        }, 0, 2000);
+    }
+
+    public void myDispose() {
+        this.dispose();
+    }
+
+
+
+    public static void infectCountryMessage(CountryModel country) {
+        JOptionPane.showMessageDialog(null, "Country " + country.getCountryName() + " is infected");
+    }
+
+    public static JLabel getTimer() {
+        return timer;
     }
 
     public static JLabel getNumberOfInfectedPeople() {
