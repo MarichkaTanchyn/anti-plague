@@ -10,7 +10,6 @@ class HotKey implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if (e.isControlDown() && e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_Q) {
             System.out.println("WORKS!");
-
         }
     }
 

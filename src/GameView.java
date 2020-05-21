@@ -12,11 +12,11 @@ public class GameView extends JFrame {
     private static JLabel numberOfRecoveredPeople;
     private static JLabel timer;
     private static ArrayList<JButton> arrayListOfUpdates;
-    JButton p1, p2, p3, p4, p5, p6, p7, p8, p9, p10;
+
     ArrayList<JButton> countryButtons;
+    ArrayList<JButton> updateButtons;
 
     public GameView(String title) {
-
         super(title);
         timer = new JLabel("00" + " : 00", JLabel.RIGHT);
         numberOfPoints = new JLabel("Number of points - 0", JLabel.LEFT);
@@ -24,8 +24,9 @@ public class GameView extends JFrame {
         numberOfRecoveredPeople = new JLabel("Currently recovered People - 0", JLabel.CENTER);
         arrayListOfUpdates = new ArrayList<>();
         countryButtons = new ArrayList<>(15);
+        updateButtons = new ArrayList<>(10);
 
-        addKeyListener(new HotKeyClass());
+        addKeyListener(new HotKey());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(1350, 628));
 
@@ -40,17 +41,17 @@ public class GameView extends JFrame {
         for (int i = 0; i < 15; i++) {
             countryButtons.add(new JButton());
             countryButtons.get(i).addActionListener(pointsListener);
+            countryButtons.get(i).setFocusable(false);
         }
-
         setIcons();
 
         JPanel updates = new JPanel();
-//        TODO: can try without BorderLayout
         updates.setLayout(new BorderLayout());
 
         JTabbedPane tabs = new JTabbedPane();
         tabs.addTab("Game", mainGame);
         tabs.addTab("Updates", updates);
+        tabs.setFocusable(false);
         add(tabs);
 
         JPanel southPanel = new JPanel();
@@ -58,16 +59,9 @@ public class GameView extends JFrame {
 
         updates();
 
-        southPanel.add(p1);
-        southPanel.add(p2);
-        southPanel.add(p3);
-        southPanel.add(p4);
-        southPanel.add(p5);
-        southPanel.add(p6);
-        southPanel.add(p7);
-        southPanel.add(p8);
-        southPanel.add(p9);
-        southPanel.add(p10);
+        for (JButton b : updateButtons) {
+            southPanel.add(b);
+        }
 
         updates.add(southPanel, BorderLayout.SOUTH);
 
@@ -115,114 +109,117 @@ public class GameView extends JFrame {
 
     void updates() {
 
-        p1 = new JButton("Everyone clean there hands --> 10p.");
-        p2 = new JButton("Go outside without mask is forbidden --> 50p.");
-        p3 = new JButton("Go outside without gloves is forbidden --> 50p.");
-        p4 = new JButton("Max number of people in transport 20 persons --> 100p");
-        p5 = new JButton("Free masks for people --> 150p");
-        p6 = new JButton("Free gloves for people --> 150p");
-        p7 = new JButton("Closing borders --> 250");
-        p8 = new JButton("Max number of people in supermarket 8 person --> 300p");
-        p9 = new JButton("Social distancing --> 350p ");
-        p10 = new JButton("Quarantine mode --> 450");
+        updateButtons.add(new JButton("Everyone clean there hands --> 10p."));
+        updateButtons.add(new JButton("Go outside without mask is forbidden --> 50p."));
+        updateButtons.add(new JButton("Go outside without gloves is forbidden --> 50p."));
+        updateButtons.add(new JButton("Max number of people in transport 20 persons --> 100p"));
+        updateButtons.add(new JButton("Free masks for people --> 150p"));
+        updateButtons.add(new JButton("Free gloves for people --> 150p"));
+        updateButtons.add(new JButton("Closing borders --> 250"));
+        updateButtons.add(new JButton("Max number of people in supermarket 8 person --> 300p"));
+        updateButtons.add(new JButton("Social distancing --> 350p "));
+        updateButtons.add(new JButton("Quarantine mode --> 450"));
+        for (JButton b : updateButtons) {
+            b.setFocusable(false);
+        }
 
-        p1.addActionListener(actionEvent -> {
+        updateButtons.get(0).addActionListener(actionEvent -> {
 //            TODO: 10 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p1);
+                arrayListOfUpdates.add(updateButtons.get(0));
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 10));
                 numberOfPoints.setText("Number of points - " + points);
 
             } else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
         });
 
-        p2.addActionListener(actionEvent -> {
+        updateButtons.get(1).addActionListener(actionEvent -> {
             //            TODO: 50 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p2);
+                arrayListOfUpdates.add(updateButtons.get(1));
 
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 20));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
         });
 
-        p3.addActionListener(actionEvent -> {
+        updateButtons.get(2).addActionListener(actionEvent -> {
             //            TODO: 50 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p3);
+                arrayListOfUpdates.add(updateButtons.get(2));
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 50));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
         });
 
-        p4.addActionListener(actionEvent -> {
+        updateButtons.get(3).addActionListener(actionEvent -> {
             //            TODO: 100 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p4);
+                arrayListOfUpdates.add(updateButtons.get(3));
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 100));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
         });
 
-        p5.addActionListener(actionEvent -> {
+        updateButtons.get(4).addActionListener(actionEvent -> {
             //            TODO: 150 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p5);
+                arrayListOfUpdates.add(updateButtons.get(4));
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 150));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
         });
 
-        p6.addActionListener(actionEvent -> {
+        updateButtons.get(5).addActionListener(actionEvent -> {
             //            TODO: 150 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p6);
+                arrayListOfUpdates.add(updateButtons.get(5));
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 150));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
         });
 
-        p7.addActionListener(actionEvent -> {
+        updateButtons.get(6).addActionListener(actionEvent -> {
             //            TODO: 250 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p7);
+                arrayListOfUpdates.add(updateButtons.get(6));
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 250));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
         });
 
-        p8.addActionListener(actionEvent -> {
+        updateButtons.get(7).addActionListener(actionEvent -> {
             //            TODO: 300 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p8);
+                arrayListOfUpdates.add(updateButtons.get(7));
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 300));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
         });
 
-        p9.addActionListener(actionEvent -> {
+        updateButtons.get(8).addActionListener(actionEvent -> {
             //            TODO: 350 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p9);
+                arrayListOfUpdates.add(updateButtons.get(8));
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 350));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
         });
 
-        p10.addActionListener(actionEvent -> {
+        updateButtons.get(9).addActionListener(actionEvent -> {
             //            TODO: 450 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p10);
+                arrayListOfUpdates.add(updateButtons.get(9));
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 450));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
