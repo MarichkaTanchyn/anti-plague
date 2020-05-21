@@ -5,14 +5,14 @@ import java.util.TimerTask;
 
 public class Mode {
 
-    private HashMap<Integer, Countries> infected;
-    private HashMap<Integer, Countries> notInfected;
+    private HashMap<Integer, Country> infected;
+    private HashMap<Integer, Country> notInfected;
 
     private int countriesInfectionTime;
     private int numberOfCountries;
     private int peopleInfectionTime;
     private Mode address;
-    private Countries country;
+    private Country country;
     private int numberOfPeople;
     private int numberOfInfectedPeople;
     private boolean isOpen = true;
@@ -37,21 +37,21 @@ public class Mode {
         numberOfInfectedPeople = 0;
         numberOfRecoveredPeople  = 0;
         recoveredPerDay = 0;
-        notInfected.put(1, new China(200));
-        notInfected.put(2, new Ukraine(440));
-        notInfected.put(3, new USA(300));
-        notInfected.put(4, new Belarus(500));
-        notInfected.put(5, new Russia(100));
-        notInfected.put(6, new Canada(700));
-        notInfected.put(7, new France(300));
-        notInfected.put(8, new Greenland(100));
-        notInfected.put(9, new Italy(400));
-        notInfected.put(10, new Japan(400));
-        notInfected.put(11, new Africa(300));
-        notInfected.put(12, new Australia(100));
-        notInfected.put(13, new Poland(300));
-        notInfected.put(14, new Spain(500));
-        notInfected.put(15, new Lithuania(120));
+        notInfected.put(1, new Country("China",200));
+        notInfected.put(2, new Country("Ukraine",440));
+        notInfected.put(3, new Country("USA",300));
+        notInfected.put(4, new Country("Belarus",500));
+        notInfected.put(5, new Country("Russia",100));
+        notInfected.put(6, new Country("Canada",700));
+        notInfected.put(7, new Country("France",300));
+        notInfected.put(8, new Country("Greenland",100));
+        notInfected.put(9, new Country("Italy",400));
+        notInfected.put(10, new Country("Japan",400));
+        notInfected.put(11, new Country("Africa",300));
+        notInfected.put(12, new Country("Australia",300));
+        notInfected.put(13, new Country("Poland",300));
+        notInfected.put(14, new Country("Spain",500));
+        notInfected.put(15, new Country("Lithuania",120));
 
 
         numberOfPeople = 0;
@@ -62,11 +62,11 @@ public class Mode {
         numberOfCountries = notInfected.size();
     }
 
-    public HashMap<Integer, Countries> getInfected() {
+    public HashMap<Integer, Country> getInfected() {
         return infected;
     }
 
-    public HashMap<Integer, Countries> getNotInfected() {
+    public HashMap<Integer, Country> getNotInfected() {
         return notInfected;
     }
 
@@ -129,7 +129,7 @@ public class Mode {
             }
         });
         if (numberOfRecoveredPeople >= numberOfInfectedPeople) {
-            System.exit(1);
+            new Data();
         }
 
         System.out.println("---- ---- ----\n\n");

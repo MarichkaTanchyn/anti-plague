@@ -1,11 +1,20 @@
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class HotKeyClass extends KeyAdapter {
+public class HotKeyClass implements KeyListener {
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == (KeyEvent.VK_SHIFT & KeyEvent.VK_Q & KeyEvent.VK_CONTROL)) {
-            new Menu();
+        if (e.isControlDown() && e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_Q) {
+            System.out.println("WORKS!");
+
         }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
     }
 }

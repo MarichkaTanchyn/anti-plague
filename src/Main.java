@@ -6,3 +6,4 @@ public class Main {
         SwingUtilities.invokeLater(Menu::new);
     }
 }
+

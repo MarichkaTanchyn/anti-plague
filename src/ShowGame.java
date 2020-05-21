@@ -31,6 +31,7 @@ public class ShowGame extends JFrame {
         numberOfRecoveredPeople = new JLabel("Currently recovered People - 0", JLabel.CENTER);
         arrayListOfUpdates = new ArrayList<>();
 
+        addKeyListener(new HotKeyClass());
         setTitle("Your Game");
 
         setLocationRelativeTo(null);
@@ -97,6 +98,8 @@ public class ShowGame extends JFrame {
         JTabbedPane tabs = new JTabbedPane();
         tabs.addTab("Game", mainGame);
         tabs.addTab("Updates", updates);
+        updates.setFocusable(false);
+        mainGame.setFocusable(false);
 
 
         updates.setLayout(new BorderLayout());
@@ -150,7 +153,6 @@ public class ShowGame extends JFrame {
         mainGame.add(bFrance);
         mainGame.add(bLithuania);
         mainGame.add(bSpain);
-
 
         add(tabs);
         pack();
