@@ -1,19 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Show2dMenu extends JFrame {
+public class PreGameView extends JFrame {
 
-    Show2dMenu() {
+    PreGameView() {
 
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setDefaultLookAndFeelDecorated(true);
         setSize(360, 120);
 
-
         JPanel mainMenu = new JPanel();
-
-
 
         setLayout(new GridLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -33,18 +30,17 @@ public class Show2dMenu extends JFrame {
 
         b1.addActionListener(actionEvent -> {
             this.dispose();
-            ShowGame.easyType();
+            GameView.easyType();
         });
         b2.addActionListener(actionEvent -> {
             this.dispose();
-            ShowGame.mediumType();
+            GameView.mediumType();
 
         });
         b3.addActionListener(actionEvent -> {
             this.dispose();
-            ShowGame.hardType();
+            GameView.hardType();
         });
-
 
         add(mainMenu);
         setLocationRelativeTo(null);

@@ -1,7 +1,7 @@
-public class EasyMod extends Mode {
+public class EasyMode extends Mode {
 
 
-    EasyMod() {
+    EasyMode() {
         super();
         periodOfInfection();
         int countriesInfectedTime = 2000; // 20000

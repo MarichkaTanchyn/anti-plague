@@ -5,14 +5,14 @@ import java.util.TimerTask;
 
 public class Mode {
 
-    private HashMap<Integer, Country> infected;
-    private HashMap<Integer, Country> notInfected;
+    private HashMap<Integer, CountryModel> infected;
+    private HashMap<Integer, CountryModel> notInfected;
 
     private int countriesInfectionTime;
     private int numberOfCountries;
     private int peopleInfectionTime;
     private Mode address;
-    private Country country;
+    private CountryModel country;
     private int numberOfPeople;
     private int numberOfInfectedPeople;
     private boolean isOpen = true;
@@ -24,9 +24,6 @@ public class Mode {
     private static int numberOfRecoveredPeople;
     private static double recoveringConstant;
 
-
-
-
     Mode() {
         infected = new HashMap<>();
         notInfected = new HashMap<>();
@@ -37,21 +34,21 @@ public class Mode {
         numberOfInfectedPeople = 0;
         numberOfRecoveredPeople  = 0;
         recoveredPerDay = 0;
-        notInfected.put(1, new Country("China",200));
-        notInfected.put(2, new Country("Ukraine",440));
-        notInfected.put(3, new Country("USA",300));
-        notInfected.put(4, new Country("Belarus",500));
-        notInfected.put(5, new Country("Russia",100));
-        notInfected.put(6, new Country("Canada",700));
-        notInfected.put(7, new Country("France",300));
-        notInfected.put(8, new Country("Greenland",100));
-        notInfected.put(9, new Country("Italy",400));
-        notInfected.put(10, new Country("Japan",400));
-        notInfected.put(11, new Country("Africa",300));
-        notInfected.put(12, new Country("Australia",300));
-        notInfected.put(13, new Country("Poland",300));
-        notInfected.put(14, new Country("Spain",500));
-        notInfected.put(15, new Country("Lithuania",120));
+        notInfected.put(1, new CountryModel("China",200));
+        notInfected.put(2, new CountryModel("Ukraine",440));
+        notInfected.put(3, new CountryModel("USA",300));
+        notInfected.put(4, new CountryModel("Belarus",500));
+        notInfected.put(5, new CountryModel("Russia",100));
+        notInfected.put(6, new CountryModel("Canada",700));
+        notInfected.put(7, new CountryModel("France",300));
+        notInfected.put(8, new CountryModel("Greenland",100));
+        notInfected.put(9, new CountryModel("Italy",400));
+        notInfected.put(10, new CountryModel("Japan",400));
+        notInfected.put(11, new CountryModel("Africa",300));
+        notInfected.put(12, new CountryModel("Australia",300));
+        notInfected.put(13, new CountryModel("Poland",300));
+        notInfected.put(14, new CountryModel("Spain",500));
+        notInfected.put(15, new CountryModel("Lithuania",120));
 
 
         numberOfPeople = 0;
@@ -62,11 +59,11 @@ public class Mode {
         numberOfCountries = notInfected.size();
     }
 
-    public HashMap<Integer, Country> getInfected() {
+    public HashMap<Integer, CountryModel> getInfected() {
         return infected;
     }
 
-    public HashMap<Integer, Country> getNotInfected() {
+    public HashMap<Integer, CountryModel> getNotInfected() {
         return notInfected;
     }
 
@@ -112,23 +109,22 @@ public class Mode {
                 v.infectPeople();
                 numberOfInfectedPeople += infectedPerDay;
 //                Updating label
-                ShowGame.setNumberOfInfected(numberOfInfectedPeople);
-                ShowGame.getNumberOfInfectedPeople().setText("Currently infected People - " + ShowGame.getNumberOfInfected() + "/" + numberOfPeople);
+                GameView.getNumberOfInfectedPeople().setText("Currently infected People - " + numberOfInfectedPeople + "/" + numberOfPeople);
 
 //                Recovering people
-                if (!ShowGame.getArrayListOfUpdates().isEmpty()){
+                if (!GameView.getArrayListOfUpdates().isEmpty()){
                     v.recoverPeople();
                     numberOfRecoveredPeople += recoveredPerDay;
                     System.out.println("Recovered:         (" + k + ") " + v.getClass() + ": " + v.getNumberOfRecovered() + "/" + v.getNumberOfPeople());
 
                 }
 
-                ShowGame.getNumberOfRecoveredPeople().setText("Currently recovered People - " + numberOfRecoveredPeople + "/" +  numberOfInfectedPeople);
-
+                GameView.getNumberOfRecoveredPeople().setText("Currently recovered People - " + numberOfRecoveredPeople + "/" +  numberOfInfectedPeople);
                 System.out.println("Infected :         (" + k + ") " + v.getClass() + ": " + v.getNumberOfInfected() + "/" + v.getNumberOfPeople());
             }
         });
         if (numberOfRecoveredPeople >= numberOfInfectedPeople) {
+//            TODO: improve
             new Data();
         }
 

@@ -1,4 +1,4 @@
-public class Country {
+public class CountryModel {
 
     private boolean isInfected;
     private int numberOfPeople;
@@ -9,7 +9,7 @@ public class Country {
     private static int idProvider = 1;
 
 
-    public Country(String countryName,int numberOfPeople) {
+    public CountryModel(String countryName, int numberOfPeople) {
         this.numberOfPeople = numberOfPeople;
         this.countryName = countryName;
         numberOfInfected = 0;
@@ -19,21 +19,21 @@ public class Country {
     }
 
 
-    synchronized Country startInfection(Mode process) {
+    synchronized CountryModel startInfection(Mode process) {
         isInfected = true;
         process.getNotInfected().remove(id);
         process.getInfected().put(id, this);
         System.out.println("Country " + this.getClass() + " is infected!");
-        ShowGame.infectCountryMassage(this.toString());
+        GameView.infectCountryMassage(this.toString());
         return this;
     }
 
-    synchronized Country infectPeople() {
+    synchronized CountryModel infectPeople() {
         numberOfInfected += Mode.getInfectedPerDay();
         return this;
     }
 
-    synchronized Country recoverPeople() {
+    synchronized CountryModel recoverPeople() {
         numberOfRecovered += Mode.getRecoveredPerDay();
         return this;
     }

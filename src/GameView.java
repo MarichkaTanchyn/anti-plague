@@ -2,45 +2,32 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class ShowGame extends JFrame {
+public class GameView extends JFrame {
 
     private int points;
+
     private static JLabel numberOfPoints;
     private static JLabel numberOfInfectedPeople;
     private static JLabel numberOfRecoveredPeople;
-    private static int numberOfInfected;
-    private static int secs;
-    private static int mins;
     private static JLabel timer;
     private static ArrayList<JButton> arrayListOfUpdates;
-
-
     JButton p1, p2, p3, p4, p5, p6, p7, p8, p9, p10;
 
+    public GameView(String title) {
 
-    public ShowGame() {
-
-        secs = 0;
-        mins = 0;
-        timer = new JLabel("0" + mins + " : 0" + secs, JLabel.RIGHT);
+        super(title);
+        timer = new JLabel("00" + " : 00", JLabel.RIGHT);
         numberOfPoints = new JLabel("Number of points - 0", JLabel.LEFT);
         numberOfInfectedPeople = new JLabel("Currently infected People - 0", JLabel.CENTER);
         numberOfRecoveredPeople = new JLabel("Currently recovered People - 0", JLabel.CENTER);
         arrayListOfUpdates = new ArrayList<>();
 
         addKeyListener(new HotKeyClass());
-        setTitle("Your Game");
-
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setVisible(true);
-        setSize(1350, 628);
+        setPreferredSize(new Dimension(1350, 628));
 
         JPanel mainGame = new JPanel();
-
         mainGame.setLayout(new GridLayout(3, 3, 10, 10));
 
         JButton bUSA = new JButton();
@@ -76,8 +63,8 @@ public class ShowGame extends JFrame {
         ActionListener pointsListener = (e) -> {
             points++;
             numberOfPoints.setText("Number of points - " + points);
-
         };
+
         bUSA.addActionListener(pointsListener);
         bAfrica.addActionListener(pointsListener);
         bAustralia.addActionListener(pointsListener);
@@ -95,14 +82,13 @@ public class ShowGame extends JFrame {
         bSpain.addActionListener(pointsListener);
 
         JPanel updates = new JPanel();
+//        TODO: can try without BorderLayout
+        updates.setLayout(new BorderLayout());
+
         JTabbedPane tabs = new JTabbedPane();
         tabs.addTab("Game", mainGame);
         tabs.addTab("Updates", updates);
-        updates.setFocusable(false);
-        mainGame.setFocusable(false);
-
-
-        updates.setLayout(new BorderLayout());
+        add(tabs);
 
         JPanel southPanel = new JPanel();
         southPanel.setLayout(new GridLayout(5, 2, 10, 10));
@@ -120,15 +106,13 @@ public class ShowGame extends JFrame {
         southPanel.add(p9);
         southPanel.add(p10);
 
-
         updates.add(southPanel, BorderLayout.SOUTH);
-
 
         JPanel northPanel = new JPanel();
         northPanel.setLayout(new GridLayout(1, 4, 10,10));
         updates.add(northPanel, BorderLayout.NORTH);
 
-        numberOfInfectedPeople.setText("Number of infected People - " + numberOfInfected);
+        numberOfInfectedPeople.setText("Number of infected People - 0");
         numberOfInfectedPeople.setForeground(Color.RED);
         numberOfRecoveredPeople.setForeground(new Color(0, 122, 43));
 
@@ -154,9 +138,9 @@ public class ShowGame extends JFrame {
         mainGame.add(bLithuania);
         mainGame.add(bSpain);
 
-        add(tabs);
         pack();
         setLocationRelativeTo(null);
+        setVisible(true);
 
     }
 
@@ -200,7 +184,7 @@ public class ShowGame extends JFrame {
             //            TODO: 50 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p1);
+                arrayListOfUpdates.add(p3);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 50));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
@@ -210,7 +194,7 @@ public class ShowGame extends JFrame {
             //            TODO: 100 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p1);
+                arrayListOfUpdates.add(p4);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 100));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
@@ -220,7 +204,7 @@ public class ShowGame extends JFrame {
             //            TODO: 150 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p1);
+                arrayListOfUpdates.add(p5);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 150));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
@@ -230,7 +214,7 @@ public class ShowGame extends JFrame {
             //            TODO: 150 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p1);
+                arrayListOfUpdates.add(p6);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 150));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
@@ -240,7 +224,7 @@ public class ShowGame extends JFrame {
             //            TODO: 250 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p1);
+                arrayListOfUpdates.add(p7);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 250));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
@@ -250,7 +234,7 @@ public class ShowGame extends JFrame {
             //            TODO: 300 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p1);
+                arrayListOfUpdates.add(p8);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 300));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
@@ -260,7 +244,7 @@ public class ShowGame extends JFrame {
             //            TODO: 350 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p1);
+                arrayListOfUpdates.add(p9);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 350));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
@@ -270,7 +254,7 @@ public class ShowGame extends JFrame {
             //            TODO: 450 points
             if (points >= 1) {
                 points -= 1;
-                arrayListOfUpdates.add(p1);
+                arrayListOfUpdates.add(p10);
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 450));
                 numberOfPoints.setText("Number of points - " + points);
             }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
@@ -280,23 +264,8 @@ public class ShowGame extends JFrame {
     }
 
 
-    synchronized static void timerInGame() {
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (secs == 59) {
-                    mins++;
-                    secs = 0;
-                } else secs++;
-                if (secs < 10 && mins < 10) {
-                    timer.setText("0" + mins + " : 0" + secs);
-                } else if (secs < 10) {
-                    timer.setText(mins + " : 0" + secs);
-                } else if (mins < 10) {
-                    timer.setText("0" + mins + " : " + secs);
-                } else timer.setText(mins + " :  " + secs);
-            }
-        }, 0, 1000);
+    public static JLabel getTimer() {
+        return timer;
     }
 
     public static void easyType() {
@@ -305,11 +274,11 @@ public class ShowGame extends JFrame {
                 "You started game", "Message", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
         if (input == JOptionPane.OK_OPTION) {
-            new EasyMod();
-            new ShowGame();
-            timerInGame();
+            new EasyMode();
+            new GameView("Your Game");
+            GameTimerModel.timerInGame();
         }else{
-            new Menu();
+            new MainMenuView();
         }
     }
 
@@ -321,10 +290,10 @@ public class ShowGame extends JFrame {
 
         if (inputM == JOptionPane.OK_OPTION) {
             new MediumMode();
-            new ShowGame();
-            timerInGame();
+            new GameView("Your Game");
+            GameTimerModel.timerInGame();
         }else{
-            new Menu();
+            new MainMenuView();
         }
     }
 
@@ -335,11 +304,11 @@ public class ShowGame extends JFrame {
 
         if (inputM == JOptionPane.OK_OPTION) {
             new HardMode();
-            new ShowGame();
-            timerInGame();
+            new GameView("Your Game");
+            GameTimerModel.timerInGame();
 
         }else{
-            new Menu();
+            new MainMenuView();
         }
     }
     public static void infectCountryMassage(String country){
@@ -350,14 +319,6 @@ public class ShowGame extends JFrame {
         return numberOfInfectedPeople;
     }
 
-    public static int getNumberOfInfected() {
-        return numberOfInfected;
-    }
-
-    public static void setNumberOfInfected(int numberOfInfected) {
-        ShowGame.numberOfInfected = numberOfInfected;
-    }
-
     public static ArrayList<JButton> getArrayListOfUpdates() {
         return arrayListOfUpdates;
     }
@@ -365,6 +326,22 @@ public class ShowGame extends JFrame {
     public static JLabel getNumberOfRecoveredPeople() {
         return numberOfRecoveredPeople;
     }
+
+    static class HotKeyClass implements KeyListener {
+        @Override
+        public void keyTyped(KeyEvent keyEvent) {
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.isControlDown() && e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_Q) {
+                System.out.println("WORKS!");
+
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent keyEvent) {
+        }
+    }
 }
-
-
