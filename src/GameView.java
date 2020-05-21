@@ -13,6 +13,7 @@ public class GameView extends JFrame {
     private static JLabel timer;
     private static ArrayList<JButton> arrayListOfUpdates;
     JButton p1, p2, p3, p4, p5, p6, p7, p8, p9, p10;
+    ArrayList<JButton> countryButtons;
 
     public GameView(String title) {
 
@@ -22,6 +23,7 @@ public class GameView extends JFrame {
         numberOfInfectedPeople = new JLabel("Currently infected People - 0", JLabel.CENTER);
         numberOfRecoveredPeople = new JLabel("Currently recovered People - 0", JLabel.CENTER);
         arrayListOfUpdates = new ArrayList<>();
+        countryButtons = new ArrayList<>(15);
 
         addKeyListener(new HotKeyClass());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -30,56 +32,17 @@ public class GameView extends JFrame {
         JPanel mainGame = new JPanel();
         mainGame.setLayout(new GridLayout(3, 3, 10, 10));
 
-        JButton bUSA = new JButton();
-        JButton bCanada = new JButton();
-        JButton bFrance = new JButton();
-        JButton bItaly = new JButton();
-        JButton bPoland = new JButton();
-        JButton bUkraine = new JButton();
-        JButton bRussia = new JButton();
-        JButton bChina = new JButton();
-        JButton bAfrica = new JButton();
-        JButton bAustralia = new JButton();
-        JButton bGreenland = new JButton();
-        JButton bJapan = new JButton();
-        JButton bBelarus = new JButton();
-        JButton bSpain = new JButton();
-        JButton bLithuania = new JButton();
-
-        bUSA.setIcon(new ImageIcon("./images/USA.png"));
-        bCanada.setIcon(new ImageIcon("./images/Canada.png"));
-        bFrance.setIcon(new ImageIcon("./images/france.png"));
-        bItaly.setIcon(new ImageIcon("./images/italy.png"));
-        bPoland.setIcon(new ImageIcon("./images/poland.png"));
-        bUkraine.setIcon(new ImageIcon("./images/Ukraine.png"));
-        bAfrica.setIcon(new ImageIcon("./images/africa.png"));
-        bRussia.setIcon(new ImageIcon("./images/russia.png"));
-        bChina.setIcon(new ImageIcon("./images/china.png"));
-        bAustralia.setIcon(new ImageIcon("./images/australia.png"));
-        bGreenland.setIcon(new ImageIcon("./images/greenland.png"));
-        bJapan.setIcon(new ImageIcon("./images/japan.png"));
-        bBelarus.setIcon(new ImageIcon("./images/belarus.png"));
-
         ActionListener pointsListener = (e) -> {
             points++;
             numberOfPoints.setText("Number of points - " + points);
         };
 
-        bUSA.addActionListener(pointsListener);
-        bAfrica.addActionListener(pointsListener);
-        bAustralia.addActionListener(pointsListener);
-        bBelarus.addActionListener(pointsListener);
-        bCanada.addActionListener(pointsListener);
-        bChina.addActionListener(pointsListener);
-        bFrance.addActionListener(pointsListener);
-        bGreenland.addActionListener(pointsListener);
-        bItaly.addActionListener(pointsListener);
-        bJapan.addActionListener(pointsListener);
-        bLithuania.addActionListener(pointsListener);
-        bPoland.addActionListener(pointsListener);
-        bRussia.addActionListener(pointsListener);
-        bUkraine.addActionListener(pointsListener);
-        bSpain.addActionListener(pointsListener);
+        for (int i = 0; i < 15; i++) {
+            countryButtons.add(new JButton());
+            countryButtons.get(i).addActionListener(pointsListener);
+        }
+
+        setIcons();
 
         JPanel updates = new JPanel();
 //        TODO: can try without BorderLayout
@@ -122,26 +85,32 @@ public class GameView extends JFrame {
         northPanel.add(timer);
 
 
-        mainGame.add(bUkraine);
-        mainGame.add(bUSA);
-        mainGame.add(bCanada);
-        mainGame.add(bPoland);
-        mainGame.add(bItaly);
-        mainGame.add(bAfrica);
-        mainGame.add(bRussia);
-        mainGame.add(bBelarus);
-        mainGame.add(bChina);
-        mainGame.add(bAustralia);
-        mainGame.add(bGreenland);
-        mainGame.add(bJapan);
-        mainGame.add(bFrance);
-        mainGame.add(bLithuania);
-        mainGame.add(bSpain);
+        for (JButton b : countryButtons) {
+            mainGame.add(b);
+        }
 
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
 
+    }
+
+    private void setIcons() {
+        countryButtons.get(0).setIcon(new ImageIcon("./images/USA.png"));
+        countryButtons.get(1).setIcon(new ImageIcon("./images/Canada.png"));
+        countryButtons.get(2).setIcon(new ImageIcon("./images/france.png"));
+        countryButtons.get(3).setIcon(new ImageIcon("./images/italy.png"));
+        countryButtons.get(4).setIcon(new ImageIcon("./images/poland.png"));
+        countryButtons.get(5).setIcon(new ImageIcon("./images/Ukraine.png"));
+        countryButtons.get(6).setIcon(new ImageIcon("./images/africa.png"));
+        countryButtons.get(7).setIcon(new ImageIcon("./images/russia.png"));
+        countryButtons.get(8).setIcon(new ImageIcon("./images/china.png"));
+        countryButtons.get(9).setIcon(new ImageIcon("./images/australia.png"));
+        countryButtons.get(10).setIcon(new ImageIcon("./images/greenland.png"));
+        countryButtons.get(11).setIcon(new ImageIcon("./images/japan.png"));
+        countryButtons.get(12).setIcon(new ImageIcon("./images/belarus.png"));
+        countryButtons.get(13).setIcon(new ImageIcon("./images/belarus.png"));
+        countryButtons.get(14).setIcon(new ImageIcon("./images/belarus.png"));
     }
 
     void updates() {
@@ -162,11 +131,10 @@ public class GameView extends JFrame {
             if (points >= 1) {
                 points -= 1;
                 arrayListOfUpdates.add(p1);
-
                 Mode.setRecoveredPerDay((int)(Mode.getRecoveringConstant() * 10));
                 numberOfPoints.setText("Number of points - " + points);
 
-            }else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
+            } else JOptionPane.showMessageDialog(null,"YOU NEED MORE POINTS TO BUY IT");
         });
 
         p2.addActionListener(actionEvent -> {
@@ -325,23 +293,5 @@ public class GameView extends JFrame {
 
     public static JLabel getNumberOfRecoveredPeople() {
         return numberOfRecoveredPeople;
-    }
-
-    static class HotKeyClass implements KeyListener {
-        @Override
-        public void keyTyped(KeyEvent keyEvent) {
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if (e.isControlDown() && e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_Q) {
-                System.out.println("WORKS!");
-
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent keyEvent) {
-        }
     }
 }
