@@ -10,7 +10,9 @@ public class CountryModel {
 
 
     public CountryModel(String countryName, int numberOfPeople) {
-
+        if (idProvider > 14) {
+            idProvider = 0;
+        }
         this.numberOfPeople = numberOfPeople;
         this.countryName = countryName;
         numberOfInfected = 0;

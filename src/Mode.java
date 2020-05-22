@@ -65,7 +65,7 @@ public class Mode {
 
 
     void periodOfInfection() {
-        notInfected.get(8).startInfection(this, "Coronovirus");
+        notInfected.get(8).startInfection(this, "Coronavirus");
         mainTimer = new Timer();
         mainTimer.schedule(new TimerTask() {
             @Override
@@ -125,7 +125,6 @@ public class Mode {
         if (GameView.isKeyPressed()) {
             mainTimer.cancel();
             notifyAll();
-            System.out.println("4.1 Infect People canceled ");
             Thread.currentThread().interrupt();
         }
 
@@ -133,9 +132,7 @@ public class Mode {
             numberOfRecoveredPeople = numberOfInfectedPeople;
             mainTimer.cancel();
             notifyAll();
-            System.out.println("4.2 Infect People canceled ");
             new HighScoresView(true);
-            System.out.println("4.2 Infect People canceled ");
             Thread.currentThread().interrupt();
         }
 
@@ -189,7 +186,6 @@ public class Mode {
         } else {
             mainTimer.cancel();
             notifyAll();
-            System.out.println("5. Infect Country canceled ");
             Thread.currentThread().interrupt();
         }
     }

@@ -228,7 +228,6 @@ public class GameView extends JFrame {
             public void run() {
                 if ((Mode.getNumberOfInfectedPeople() != 0 && Mode.getNumberOfRecoveredPeople() >= Mode.getNumberOfInfectedPeople())|| keyPressed) {
                     myDispose();
-                    System.out.println("2. Check if game is over timer canceled");
                     cancel();
                 }
             }

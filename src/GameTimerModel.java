@@ -23,7 +23,6 @@ public class GameTimerModel {
                         GameView.getTimer().setText("0" + mins + " : " + secs);
                     } else GameView.getTimer().setText(mins + " :  " + secs);
                 } else {
-                    System.out.println("1. Timer in game canceled");
                     cancel();
                 }
             }

@@ -47,7 +47,6 @@ public class Graphs extends JPanel {
         Coordinate c;
         for (int i = 0; i < infectedCoordinates.size(); i++) {
             c = infectedCoordinates.get(i);
-            System.out.println("Inf: " + c.cordinate1 + " " + c.cordinate2);
             g2red.draw(new Line2D.Double(unitOfTime, 595 - c.cordinate1, unitOfTime+30, 595 - c.cordinate2));
             unitOfTime+= 30;
         }
@@ -61,7 +60,6 @@ public class Graphs extends JPanel {
         Coordinate c;
         for (int i = 0; i < recoveredCoordinates.size(); i++) {
             c = recoveredCoordinates.get(i);
-            System.out.println("Rec: " + c.cordinate1 + " " + c.cordinate2);
             g2green.draw(new Line2D.Double(unitOfTime, 595 - c.cordinate1, unitOfTime+30, 595 - c.cordinate2));
             unitOfTime+= 30;
         }
@@ -80,7 +78,6 @@ public class Graphs extends JPanel {
 
                 if ((Mode.getNumberOfInfectedPeople() != 0  && Mode.getNumberOfRecoveredPeople() >= Mode.getNumberOfInfectedPeople())
                         || GameView.isKeyPressed())  {
-                    System.out.println("3. Graph timer is canceled");
                     cancel();
                 }
             }
