@@ -18,12 +18,12 @@ public class CountryModel {
         id = idProvider++;
     }
 
-    synchronized void startInfection(Mode process) {
+    synchronized void startInfection(Mode process, String transport) {
 
         process.getNotInfected().remove(id);
         Mode.getInfected().put(id, this);
         System.out.println("Country " + countryName + " is infected!");
-        GameView.infectCountryMessage(this);
+        GameView.infectCountryMessage(this, transport);
 
     }
 

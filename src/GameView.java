@@ -236,8 +236,26 @@ public class GameView extends JFrame {
         this.dispose();
     }
 
-    public static void infectCountryMessage(CountryModel country) {
-        JOptionPane.showMessageDialog(null, "Country " + country.getCountryName() + " is infected");
+    public static void infectCountryMessage(CountryModel country, String transport) {
+        JFrame message = new JFrame();
+        message.setPreferredSize(new Dimension(300, 100));
+        message.setLayout(new GridLayout(2, 1, 10, 10));
+        JLabel label = new JLabel("Country " + country.getCountryName() +" was infected by " + transport);
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        JButton ok = new JButton("OK");
+
+        ok.addActionListener(e -> {
+            message.dispose();
+        });
+        message.add(label);
+        message.add(ok);
+
+        message.pack();
+        message.setVisible(true);
+        message.setAlwaysOnTop(true);
+        message.setLocationRelativeTo(null);
+
     }
 
     public static void setKeyPressed(boolean keyPressed) {

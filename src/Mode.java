@@ -65,7 +65,7 @@ public class Mode {
 
 
     void periodOfInfection() {
-        notInfected.get(8).startInfection(this);
+        notInfected.get(8).startInfection(this, "Coronovirus");
         mainTimer = new Timer();
         mainTimer.schedule(new TimerTask() {
             @Override
@@ -144,16 +144,33 @@ public class Mode {
             while (!isOk) {
                 if (!infected.containsKey(i)) {
                     isOk = true;
-
                 }
                 else {
                     i = (int)(Math.random() * numberOfCountries);
-
                 }
             }
             CountryModel country = notInfected.get(i);
             GameView.getCountryButtons().get(i).setBackground(new Color(160, 1,0));
-            country.startInfection(address);
+            String transport = "";
+            switch ((int)(1 + Math.random() * 5)) {
+                case 1:
+                    transport = "Airplane";
+                    break;
+                case 2:
+                    transport = "Car";
+                    break;
+                case 3:
+                    transport = "Train";
+                    break;
+                case 4:
+                    transport = "Ship";
+                    break;
+                case 5:
+                    transport = "Cargo";
+                    break;
+
+            }
+            country.startInfection(address, transport);
             notifyAll();
         } else {
             mainTimer.cancel();

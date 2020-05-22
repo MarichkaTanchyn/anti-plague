@@ -35,6 +35,11 @@ public class PreGameView extends JFrame {
             GameView.hardType();
         });
 
+        b4.addActionListener(actionEvent -> {
+            this.dispose();
+            new MainMenuView();
+        });
+
         add(mainMenu);
         setVisible(true);
         setLocationRelativeTo(null);
