@@ -9,17 +9,23 @@ public class GameTimerModel {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                if (secs == 59) {
-                    mins++;
-                    secs = 0;
-                } else secs++;
-                if (secs < 10 && mins < 10) {
-                    GameView.getTimer().setText("0" + mins + " : 0" + secs);
-                } else if (secs < 10) {
-                    GameView.getTimer().setText(mins + " : 0" + secs);
-                } else if (mins < 10) {
-                    GameView.getTimer().setText("0" + mins + " : " + secs);
-                } else GameView.getTimer().setText(mins + " :  " + secs);
+
+                if ((Mode.getNumberOfRecoveredPeople() < Mode.getNumberOfInfectedPeople() || Mode.getNumberOfInfectedPeople() == 0) && !GameView.isKeyPressed()) {
+                    if (secs == 59) {
+                        mins++;
+                        secs = 0;
+                    } else secs++;
+                    if (secs < 10 && mins < 10) {
+                        GameView.getTimer().setText("0" + mins + " : 0" + secs);
+                    } else if (secs < 10) {
+                        GameView.getTimer().setText(mins + " : 0" + secs);
+                    } else if (mins < 10) {
+                        GameView.getTimer().setText("0" + mins + " : " + secs);
+                    } else GameView.getTimer().setText(mins + " :  " + secs);
+                } else {
+                    System.out.println("1. Timer in game canceled");
+                    cancel();
+                }
             }
         }, 0, 1000);
     }

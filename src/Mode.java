@@ -95,33 +95,47 @@ public class Mode {
             wait(getPeopleInfectionTime());
         } catch (InterruptedException ignore) {}
 
-        isOpen = false;
-        infected.forEach((k, v) -> {
-            if (v.getNumberOfPeople() > v.getNumberOfInfected()) {
-                v.infectPeople();
-                numberOfInfectedPeople += infectedPerDay;
+        if ((numberOfInfectedPeople != 0 && numberOfRecoveredPeople < numberOfInfectedPeople) ||!GameView.isKeyPressed()) {
+            isOpen = false;
+            infected.forEach((k, v) -> {
+                if (v.getNumberOfPeople() > v.getNumberOfInfected()) {
+                    v.infectPeople();
 
-                GameView.getNumberOfInfectedPeople()
-                        .setText("Currently infected People - " + numberOfInfectedPeople + "/" + numberOfPeople);
+                    numberOfInfectedPeople += infectedPerDay;
 
-                if (!GameView.getArrayListOfUpdates().isEmpty()){
-                    v.recoverPeople();
-                    numberOfRecoveredPeople += recoveredPerDay;
+                    GameView.getNumberOfInfectedPeople()
+                            .setText("Currently infected People - " + numberOfInfectedPeople + "/" + numberOfPeople);
+
+                    if (!GameView.getArrayListOfUpdates().isEmpty()){
+                        v.recoverPeople();
+                        numberOfRecoveredPeople += recoveredPerDay;
+                    }
+                    GameView.getNumberOfRecoveredPeople().setText("Currently recovered People - " + numberOfRecoveredPeople + "/" +  numberOfInfectedPeople);
                 }
-                GameView.getNumberOfRecoveredPeople().setText("Currently recovered People - " + numberOfRecoveredPeople + "/" +  numberOfInfectedPeople);
+            });
+
+            int numbOfInfBefore = numberOfInfectedPeople - infectedPerDay * infected.size();
+            int numbOfInfAfter = numberOfInfectedPeople;
+            int numbOfRecBefore = numberOfRecoveredPeople - recoveredPerDay * infected.size();
+            int numbOfRecAfter = numberOfRecoveredPeople;
+            Graphs.getInfectedCoordinates().add(new Graphs.Coordinate(numbOfInfBefore, numbOfInfAfter));
+            Graphs.getRecoveredCoordinates().add(new Graphs.Coordinate(numbOfRecBefore, numbOfRecAfter));
+            Graphs.setChanged(true);
+        } else {
+            if (GameView.isKeyPressed()) {
+                mainTimer.cancel();
+                notifyAll();
+                System.out.println("4.1 Infect People canceled ");
+                Thread.currentThread().interrupt();
+            } else {
+                numberOfRecoveredPeople = numberOfInfectedPeople;
+                mainTimer.cancel();
+                notifyAll();
+                System.out.println("4.2 Infect People canceled ");
+                new HighScoresView(true);
+                System.out.println("4.2 Infect People canceled ");
+                Thread.currentThread().interrupt();
             }
-        });
-
-        if (GameView.isKeyPressed()) {
-            Thread.currentThread().interrupt();
-            mainTimer.cancel();
-        }
-
-        if (numberOfRecoveredPeople >= numberOfInfectedPeople) {
-            numberOfRecoveredPeople = numberOfInfectedPeople;
-            mainTimer.cancel();
-            Thread.currentThread().interrupt();
-            new HighScoresView(true);
         }
 
         notifyAll();
@@ -171,9 +185,10 @@ public class Mode {
 
             }
             country.startInfection(address, transport);
-            notifyAll();
         } else {
             mainTimer.cancel();
+            notifyAll();
+            System.out.println("5. Infect Country canceled ");
             Thread.currentThread().interrupt();
         }
     }

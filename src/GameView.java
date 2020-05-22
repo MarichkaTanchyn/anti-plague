@@ -35,7 +35,7 @@ public class GameView extends JFrame {
 
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(1350, 628));
+        setPreferredSize(new Dimension(1800, 900));
         JPanel mainGame = new JPanel();
         mainGame.setLayout(new GridLayout(3, 3, 10, 10));
 
@@ -66,6 +66,8 @@ public class GameView extends JFrame {
         JPanel southPanel = new JPanel();
         southPanel.setLayout(new GridLayout(5, 2, 10, 10));
 
+        updates.add(new Graphs());
+
         updates();
 
         for (JButton b : updateButtons) {
@@ -78,7 +80,7 @@ public class GameView extends JFrame {
         northPanel.setLayout(new GridLayout(1, 4, 10, 10));
         updates.add(northPanel, BorderLayout.NORTH);
 
-        numberOfInfectedPeople.setText("Number of infected People - 0");
+        numberOfInfectedPeople.setText("Number of infected People - 1");
         numberOfInfectedPeople.setForeground(Color.RED);
         numberOfRecoveredPeople.setForeground(new Color(0, 122, 43));
 
@@ -152,7 +154,7 @@ public class GameView extends JFrame {
             arrayListOfUpdates.add(updateButtons.get(numbOfButton));
             Mode.setRecoveredPerDay((int) (Mode.getRecoveringConstant() * 100));
             numberOfPoints.setText("Number of points - " + this.points);
-        } else JOptionPane.showMessageDialog(null, "YOU NEED MORE POINTS TO BUY IT");
+        } else JOptionPane.showMessageDialog(null, "You need more points to buy it!");
     }
 
 
@@ -226,6 +228,7 @@ public class GameView extends JFrame {
             public void run() {
                 if ((Mode.getNumberOfInfectedPeople() != 0 && Mode.getNumberOfRecoveredPeople() >= Mode.getNumberOfInfectedPeople())|| keyPressed) {
                     myDispose();
+                    System.out.println("2. Check if game is over timer canceled");
                     cancel();
                 }
             }
@@ -237,25 +240,10 @@ public class GameView extends JFrame {
     }
 
     public static void infectCountryMessage(CountryModel country, String transport) {
-        JFrame message = new JFrame();
-        message.setPreferredSize(new Dimension(300, 100));
-        message.setLayout(new GridLayout(2, 1, 10, 10));
-        JLabel label = new JLabel("Country " + country.getCountryName() +" was infected by " + transport);
-        label.setVerticalAlignment(SwingConstants.CENTER);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        JButton ok = new JButton("OK");
-
-        ok.addActionListener(e -> {
-            message.dispose();
-        });
-        message.add(label);
-        message.add(ok);
-
-        message.pack();
-        message.setVisible(true);
-        message.setAlwaysOnTop(true);
-        message.setLocationRelativeTo(null);
-
+        JOptionPane.showMessageDialog(
+                null,
+                "Country " + country.getCountryName() +" was infected by " + transport
+        );
     }
 
     public static void setKeyPressed(boolean keyPressed) {
