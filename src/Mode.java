@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,7 +15,6 @@ public class Mode {
     private static int numberOfPeople;
     private static int numberOfInfectedPeople;
     private static int numberOfRecoveredPeople;
-    private CountryModel country;
 
     private static int infectedPerDay;
     private static int recoveredPerDay;
@@ -39,24 +39,25 @@ public class Mode {
         numberOfRecoveredPeople  = 0;
         recoveredPerDay = 0;
 
-        notInfected.put( 1, new CountryModel( "China",    200));
-        notInfected.put( 2, new CountryModel( "Ukraine",  440));
-        notInfected.put( 3, new CountryModel( "USA",      300));
-        notInfected.put( 4, new CountryModel( "Belarus",  500));
-        notInfected.put( 5, new CountryModel( "Russia",   100));
+        notInfected.put( 0, new CountryModel( "USA",    200));
+        notInfected.put( 1, new CountryModel( "Algeria",    200));
+        notInfected.put( 2, new CountryModel( "France",  440));
+        notInfected.put( 3, new CountryModel( "Italy",      300));
+        notInfected.put( 4, new CountryModel( "Poland",  500));
+        notInfected.put( 5, new CountryModel( "Ukraine",   100));
         notInfected.put( 6, new CountryModel( "Canada",   700));
-        notInfected.put( 7, new CountryModel( "France",   300));
-        notInfected.put( 8, new CountryModel( "Greenland",100));
-        notInfected.put( 9, new CountryModel( "Italy",    400));
-        notInfected.put(10, new CountryModel("Japan",     400));
-        notInfected.put(11, new CountryModel("Africa",    300));
-        notInfected.put(12, new CountryModel("Australia", 300));
-        notInfected.put(13, new CountryModel("Poland",    300));
-        notInfected.put(14, new CountryModel("Spain",     500));
-        notInfected.put(15, new CountryModel("Lithuania", 120));
+        notInfected.put( 7, new CountryModel( "Russia",   300));
+        notInfected.put( 8, new CountryModel( "China",100));
+        notInfected.put( 9, new CountryModel( "Australia",    400));
+        notInfected.put(10, new CountryModel("Greenland",     400));
+        notInfected.put(11, new CountryModel("Japan",    300));
+        notInfected.put(12, new CountryModel("Lithuania", 300));
+        notInfected.put(13, new CountryModel("Spain",    300));
+        notInfected.put(14, new CountryModel("Belarus",     500));
+
 
         numberOfPeople = 0;
-        for (int i = 1; i <= notInfected.size(); i++) {
+        for (int i = 0; i < notInfected.size(); i++) {
             numberOfPeople += notInfected.get(i).getNumberOfPeople();
         }
         numberOfCountries = notInfected.size();
@@ -64,14 +65,14 @@ public class Mode {
 
 
     void periodOfInfection() {
-        notInfected.get(1).startInfection(this);
+        notInfected.get(8).startInfection(this);
         mainTimer = new Timer();
         mainTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 if (numberOfPeople > numberOfInfectedPeople) {
                     changeStateOfPeopleInCountries();
-                } else {
+                } else{
                     new HighScoresView(true);
                     cancel();
                 }
@@ -93,8 +94,8 @@ public class Mode {
         try {
             wait(getPeopleInfectionTime());
         } catch (InterruptedException ignore) {}
-        isOpen = false;
 
+        isOpen = false;
         infected.forEach((k, v) -> {
             if (v.getNumberOfPeople() > v.getNumberOfInfected()) {
                 v.infectPeople();
@@ -107,10 +108,15 @@ public class Mode {
                     v.recoverPeople();
                     numberOfRecoveredPeople += recoveredPerDay;
                 }
-
                 GameView.getNumberOfRecoveredPeople().setText("Currently recovered People - " + numberOfRecoveredPeople + "/" +  numberOfInfectedPeople);
             }
         });
+
+        if (GameView.isKeyPressed()) {
+            Thread.currentThread().interrupt();
+            mainTimer.cancel();
+        }
+
         if (numberOfRecoveredPeople >= numberOfInfectedPeople) {
             numberOfRecoveredPeople = numberOfInfectedPeople;
             mainTimer.cancel();
@@ -131,19 +137,26 @@ public class Mode {
             wait(getCountriesInfectionTime());
         } catch (InterruptedException ignore) {}
 
-        if (numberOfInfectedPeople > 0 && numberOfRecoveredPeople < numberOfInfectedPeople) {
+        if (numberOfInfectedPeople > 0 && numberOfRecoveredPeople < numberOfInfectedPeople && !GameView.isKeyPressed()) {
             isOpen = true;
             boolean isOk = false;
-            int i = 1;
+            int i = 8;
             while (!isOk) {
-                if (!infected.containsKey(i)) isOk = true;
-                else i = (int) (1 + Math.random() * numberOfCountries);
-            }
-            country = notInfected.get(i);
-            country.startInfection(address);
+                if (!infected.containsKey(i)) {
+                    isOk = true;
 
+                }
+                else {
+                    i = (int)(Math.random() * numberOfCountries);
+
+                }
+            }
+            CountryModel country = notInfected.get(i);
+            GameView.getCountryButtons().get(i).setBackground(new Color(160, 1,0));
+            country.startInfection(address);
             notifyAll();
         } else {
+            mainTimer.cancel();
             Thread.currentThread().interrupt();
         }
     }

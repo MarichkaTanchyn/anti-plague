@@ -6,10 +6,11 @@ public class CountryModel {
     private String countryName;
 
     private int id;
-    private static int idProvider = 1;
+    private static int idProvider = 0;
 
 
     public CountryModel(String countryName, int numberOfPeople) {
+
         this.numberOfPeople = numberOfPeople;
         this.countryName = countryName;
         numberOfInfected = 0;
@@ -18,10 +19,12 @@ public class CountryModel {
     }
 
     synchronized void startInfection(Mode process) {
+
         process.getNotInfected().remove(id);
         Mode.getInfected().put(id, this);
         System.out.println("Country " + countryName + " is infected!");
         GameView.infectCountryMessage(this);
+
     }
 
     synchronized void infectPeople() {
@@ -37,4 +40,6 @@ public class CountryModel {
     public int getNumberOfPeople() { return numberOfPeople; }
 
     public String getCountryName() { return countryName; }
+
+
 }

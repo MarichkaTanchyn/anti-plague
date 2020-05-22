@@ -14,11 +14,11 @@ public class GameView extends JFrame {
     private static JLabel numberOfRecoveredPeople;
     private static JLabel timer;
     private static ArrayList<JButton> arrayListOfUpdates;
+    private static boolean keyPressed;
 
-    ArrayList<JButton> countryButtons;
-    ArrayList<JButton> updateButtons;
+    private static ArrayList<JButton> countryButtons;
+    private static ArrayList<JButton> updateButtons;
 
-    private static Mode mode;
 
     public GameView(String title) {
         super(title);
@@ -29,11 +29,13 @@ public class GameView extends JFrame {
         arrayListOfUpdates = new ArrayList<>();
         countryButtons = new ArrayList<>(15);
         updateButtons = new ArrayList<>(10);
+        keyPressed = false;
 
         addKeyListener(new HotKey());
+
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(1350, 628));
-
         JPanel mainGame = new JPanel();
         mainGame.setLayout(new GridLayout(3, 3, 10, 10));
 
@@ -46,7 +48,10 @@ public class GameView extends JFrame {
             countryButtons.add(new JButton());
             countryButtons.get(i).addActionListener(pointsListener);
             countryButtons.get(i).setFocusable(false);
+            countryButtons.get(i).setOpaque(true);
         }
+        GameView.getCountryButtons().get(8).setBackground(new Color(160, 1,0));
+
         setIcons();
 
         JPanel updates = new JPanel();
@@ -87,7 +92,7 @@ public class GameView extends JFrame {
             mainGame.add(b);
         }
 
-        checkIfGameIsOver(mode);
+        checkIfGameIsOver();
 
         pack();
         setLocationRelativeTo(null);
@@ -96,19 +101,19 @@ public class GameView extends JFrame {
 
     private void setIcons() {
         countryButtons.get(0).setIcon(new ImageIcon("./images/USA.png"));
-        countryButtons.get(1).setIcon(new ImageIcon("./images/Canada.png"));
+        countryButtons.get(6).setIcon(new ImageIcon("./images/Canada.png"));
         countryButtons.get(2).setIcon(new ImageIcon("./images/france.png"));
         countryButtons.get(3).setIcon(new ImageIcon("./images/italy.png"));
         countryButtons.get(4).setIcon(new ImageIcon("./images/poland.png"));
         countryButtons.get(5).setIcon(new ImageIcon("./images/Ukraine.png"));
-        countryButtons.get(6).setIcon(new ImageIcon("./images/africa.png"));
+        countryButtons.get(1).setIcon(new ImageIcon("./images/Algeria.png"));
         countryButtons.get(7).setIcon(new ImageIcon("./images/russia.png"));
         countryButtons.get(8).setIcon(new ImageIcon("./images/china.png"));
         countryButtons.get(9).setIcon(new ImageIcon("./images/australia.png"));
         countryButtons.get(10).setIcon(new ImageIcon("./images/greenland.png"));
         countryButtons.get(11).setIcon(new ImageIcon("./images/japan.png"));
-        countryButtons.get(12).setIcon(new ImageIcon("./images/belarus.png"));
-        countryButtons.get(13).setIcon(new ImageIcon("./images/belarus.png"));
+        countryButtons.get(12).setIcon(new ImageIcon("./images/lithuania.png"));
+        countryButtons.get(13).setIcon(new ImageIcon("./images/spain.png"));
         countryButtons.get(14).setIcon(new ImageIcon("./images/belarus.png"));
     }
 
@@ -145,7 +150,7 @@ public class GameView extends JFrame {
         if (this.points >= points) {
             this.points -= points;
             arrayListOfUpdates.add(updateButtons.get(numbOfButton));
-            Mode.setRecoveredPerDay((int) (Mode.getRecoveringConstant() * 1000)); // TODO: change 100 to this.points
+            Mode.setRecoveredPerDay((int) (Mode.getRecoveringConstant() * 100));
             numberOfPoints.setText("Number of points - " + this.points);
         } else JOptionPane.showMessageDialog(null, "YOU NEED MORE POINTS TO BUY IT");
     }
@@ -164,7 +169,7 @@ public class GameView extends JFrame {
         );
 
         if (input == JOptionPane.OK_OPTION) {
-            mode = new EasyMode();
+            new EasyMode();
             new GameView("Your Game");
             GameTimerModel.timerInGame();
         } else {
@@ -185,7 +190,7 @@ public class GameView extends JFrame {
         );
 
         if (inputM == JOptionPane.OK_OPTION) {
-            mode = new MediumMode();
+            new MediumMode();
             new GameView("Your Game");
             GameTimerModel.timerInGame();
         } else {
@@ -206,7 +211,7 @@ public class GameView extends JFrame {
         );
 
         if (inputM == JOptionPane.OK_OPTION) {
-            mode = new HardMode();
+            new HardMode();
             new GameView("Your Game");
             GameTimerModel.timerInGame();
 
@@ -215,30 +220,40 @@ public class GameView extends JFrame {
         }
     }
 
-    void checkIfGameIsOver(Mode mode) {
+    void checkIfGameIsOver() {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                if (mode.getNumberOfInfectedPeople() != 0 && mode.getNumberOfRecoveredPeople() >= mode.getNumberOfInfectedPeople()) {
+                if ((Mode.getNumberOfInfectedPeople() != 0 && Mode.getNumberOfRecoveredPeople() >= Mode.getNumberOfInfectedPeople())|| keyPressed) {
                     myDispose();
                     cancel();
                 }
             }
-        }, 0, 2000);
+        }, 0, 200);
     }
 
     public void myDispose() {
         this.dispose();
     }
 
-
-
     public static void infectCountryMessage(CountryModel country) {
         JOptionPane.showMessageDialog(null, "Country " + country.getCountryName() + " is infected");
     }
 
+    public static void setKeyPressed(boolean keyPressed) {
+        GameView.keyPressed = keyPressed;
+    }
+
+    public static boolean isKeyPressed() {
+        return keyPressed;
+    }
+
     public static JLabel getTimer() {
         return timer;
+    }
+
+    public static ArrayList<JButton> getCountryButtons() {
+        return countryButtons;
     }
 
     public static JLabel getNumberOfInfectedPeople() {
@@ -252,4 +267,6 @@ public class GameView extends JFrame {
     public static JLabel getNumberOfRecoveredPeople() {
         return numberOfRecoveredPeople;
     }
+
+
 }
