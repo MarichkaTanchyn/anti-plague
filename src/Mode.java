@@ -95,47 +95,48 @@ public class Mode {
             wait(getPeopleInfectionTime());
         } catch (InterruptedException ignore) {}
 
-        if ((numberOfInfectedPeople != 0 && numberOfRecoveredPeople < numberOfInfectedPeople) ||!GameView.isKeyPressed()) {
-            isOpen = false;
-            infected.forEach((k, v) -> {
-                if (v.getNumberOfPeople() > v.getNumberOfInfected()) {
-                    v.infectPeople();
+        isOpen = false;
+        infected.forEach((k, v) -> {
+            if (v.getNumberOfPeople() > v.getNumberOfInfected()) {
+                v.infectPeople();
 
-                    numberOfInfectedPeople += infectedPerDay;
+                numberOfInfectedPeople += infectedPerDay;
 
-                    GameView.getNumberOfInfectedPeople()
-                            .setText("Currently infected People - " + numberOfInfectedPeople + "/" + numberOfPeople);
+                GameView.getNumberOfInfectedPeople()
+                        .setText("Currently infected People - " + numberOfInfectedPeople + "/" + numberOfPeople);
 
-                    if (!GameView.getArrayListOfUpdates().isEmpty()){
-                        v.recoverPeople();
-                        numberOfRecoveredPeople += recoveredPerDay;
-                    }
-                    GameView.getNumberOfRecoveredPeople().setText("Currently recovered People - " + numberOfRecoveredPeople + "/" +  numberOfInfectedPeople);
+                if (!GameView.getArrayListOfUpdates().isEmpty()){
+                    v.recoverPeople();
+                    numberOfRecoveredPeople += recoveredPerDay;
                 }
-            });
-
-            int numbOfInfBefore = numberOfInfectedPeople - infectedPerDay * infected.size();
-            int numbOfInfAfter = numberOfInfectedPeople;
-            int numbOfRecBefore = numberOfRecoveredPeople - recoveredPerDay * infected.size();
-            int numbOfRecAfter = numberOfRecoveredPeople;
-            Graphs.getInfectedCoordinates().add(new Graphs.Coordinate(numbOfInfBefore, numbOfInfAfter));
-            Graphs.getRecoveredCoordinates().add(new Graphs.Coordinate(numbOfRecBefore, numbOfRecAfter));
-            Graphs.setChanged(true);
-        } else {
-            if (GameView.isKeyPressed()) {
-                mainTimer.cancel();
-                notifyAll();
-                System.out.println("4.1 Infect People canceled ");
-                Thread.currentThread().interrupt();
-            } else {
-                numberOfRecoveredPeople = numberOfInfectedPeople;
-                mainTimer.cancel();
-                notifyAll();
-                System.out.println("4.2 Infect People canceled ");
-                new HighScoresView(true);
-                System.out.println("4.2 Infect People canceled ");
-                Thread.currentThread().interrupt();
+                GameView.getNumberOfRecoveredPeople().setText("Currently recovered People - " + numberOfRecoveredPeople + "/" +  numberOfInfectedPeople);
             }
+        });
+
+        int numbOfInfBefore = numberOfInfectedPeople - infectedPerDay * infected.size();
+        int numbOfInfAfter = numberOfInfectedPeople;
+        int numbOfRecBefore = numberOfRecoveredPeople - recoveredPerDay * infected.size();
+        int numbOfRecAfter = numberOfRecoveredPeople;
+        Graphs.getInfectedCoordinates().add(new Graphs.Coordinate(numbOfInfBefore, numbOfInfAfter));
+        Graphs.getRecoveredCoordinates().add(new Graphs.Coordinate(numbOfRecBefore, numbOfRecAfter));
+        Graphs.setChanged(true);
+
+
+        if (GameView.isKeyPressed()) {
+            mainTimer.cancel();
+            notifyAll();
+            System.out.println("4.1 Infect People canceled ");
+            Thread.currentThread().interrupt();
+        }
+
+        if (numberOfRecoveredPeople >= numberOfInfectedPeople) {
+            numberOfRecoveredPeople = numberOfInfectedPeople;
+            mainTimer.cancel();
+            notifyAll();
+            System.out.println("4.2 Infect People canceled ");
+            new HighScoresView(true);
+            System.out.println("4.2 Infect People canceled ");
+            Thread.currentThread().interrupt();
         }
 
         notifyAll();
