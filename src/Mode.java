@@ -4,16 +4,16 @@ import java.util.TimerTask;
 
 public class Mode {
 
-    private HashMap<Integer, CountryModel> infected;
+    private static HashMap<Integer, CountryModel> infected;
     private HashMap<Integer, CountryModel> notInfected;
 
     private int countriesInfectionTime;
     private int peopleInfectionTime;
 
-    private int numberOfCountries;
-    private int numberOfPeople;
-    private int numberOfInfectedPeople;
-    private int numberOfRecoveredPeople;
+    private static int numberOfCountries;
+    private static int numberOfPeople;
+    private static int numberOfInfectedPeople;
+    private static int numberOfRecoveredPeople;
     private CountryModel country;
 
     private static int infectedPerDay;
@@ -22,6 +22,8 @@ public class Mode {
     private boolean isOpen;
     private int period;
     private static double recoveringConstant;
+
+    private Timer mainTimer;
 
     private Mode address;
 
@@ -63,13 +65,14 @@ public class Mode {
 
     void periodOfInfection() {
         notInfected.get(1).startInfection(this);
-        new Timer().schedule(new TimerTask() {
+        mainTimer = new Timer();
+        mainTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 if (numberOfPeople > numberOfInfectedPeople) {
                     changeStateOfPeopleInCountries();
                 } else {
-                    new Data();
+                    new HighScoresView(true);
                     cancel();
                 }
 
@@ -90,7 +93,6 @@ public class Mode {
         try {
             wait(getPeopleInfectionTime());
         } catch (InterruptedException ignore) {}
-        System.out.println("\n\n---- ---- ----\nProcess:");
         isOpen = false;
 
         infected.forEach((k, v) -> {
@@ -104,19 +106,18 @@ public class Mode {
                 if (!GameView.getArrayListOfUpdates().isEmpty()){
                     v.recoverPeople();
                     numberOfRecoveredPeople += recoveredPerDay;
-                    System.out.println("Recovered:         (" + k + ") " + v.getClass() + ": " + v.getNumberOfRecovered() + "/" + v.getNumberOfPeople());
-
                 }
 
                 GameView.getNumberOfRecoveredPeople().setText("Currently recovered People - " + numberOfRecoveredPeople + "/" +  numberOfInfectedPeople);
-                System.out.println("Infected :         (" + k + ") " + v.getClass() + ": " + v.getNumberOfInfected() + "/" + v.getNumberOfPeople());
             }
         });
         if (numberOfRecoveredPeople >= numberOfInfectedPeople) {
-            numberOfInfectedPeople = numberOfRecoveredPeople;
-            new Data();
+            numberOfRecoveredPeople = numberOfInfectedPeople;
+            mainTimer.cancel();
+            Thread.currentThread().interrupt();
+            new HighScoresView(true);
         }
-        System.out.println("---- ---- ----\n\n");
+
         notifyAll();
     }
 
@@ -124,29 +125,30 @@ public class Mode {
         while (isOpen) {
             try {
                 wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                System.out.println("1 Interrupted");
-            }
+            } catch (InterruptedException ignore) {}
         }
         try {
             wait(getCountriesInfectionTime());
-            System.out.println(getCountriesInfectionTime());
         } catch (InterruptedException ignore) {}
-        isOpen = true;
-        boolean isOk = false;
-        int i = 1;
-        while (!isOk) {
-            if (!infected.containsKey(i)) isOk = true;
-            else i = (int) (1 + Math.random() * numberOfCountries);
-        }
-        country = notInfected.get(i);
-        country.startInfection(address);
 
-        notifyAll();
+        if (numberOfInfectedPeople > 0 && numberOfRecoveredPeople < numberOfInfectedPeople) {
+            isOpen = true;
+            boolean isOk = false;
+            int i = 1;
+            while (!isOk) {
+                if (!infected.containsKey(i)) isOk = true;
+                else i = (int) (1 + Math.random() * numberOfCountries);
+            }
+            country = notInfected.get(i);
+            country.startInfection(address);
+
+            notifyAll();
+        } else {
+            Thread.currentThread().interrupt();
+        }
     }
 
-    public HashMap<Integer, CountryModel> getInfected() { return infected; }
+    public static HashMap<Integer, CountryModel> getInfected() { return infected; }
 
     public HashMap<Integer, CountryModel> getNotInfected() { return notInfected; }
 
@@ -160,9 +162,16 @@ public class Mode {
 
     public static int getRecoveredPerDay() { return recoveredPerDay; }
 
-    public int getNumberOfInfectedPeople() { return numberOfInfectedPeople; }
+    public static int getNumberOfInfectedPeople() { return numberOfInfectedPeople; }
 
-    public int getNumberOfRecoveredPeople() { return numberOfRecoveredPeople; }
+    public static int getNumberOfRecoveredPeople() { return numberOfRecoveredPeople; }
+
+    public static int getNumberOfPeople() {
+        return numberOfPeople;
+    }
+    public static int getNumberOfCountries() {
+        return numberOfCountries;
+    }
 
     public void setPeriod(int period) { this.period = period; }
 

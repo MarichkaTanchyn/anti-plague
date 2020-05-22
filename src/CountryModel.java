@@ -19,7 +19,7 @@ public class CountryModel {
 
     synchronized void startInfection(Mode process) {
         process.getNotInfected().remove(id);
-        process.getInfected().put(id, this);
+        Mode.getInfected().put(id, this);
         System.out.println("Country " + countryName + " is infected!");
         GameView.infectCountryMessage(this);
     }
@@ -33,8 +33,6 @@ public class CountryModel {
     }
 
     public int getNumberOfInfected() { return numberOfInfected; }
-
-    public int getNumberOfRecovered() { return numberOfRecovered; }
 
     public int getNumberOfPeople() { return numberOfPeople; }
 

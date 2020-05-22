@@ -145,7 +145,7 @@ public class GameView extends JFrame {
         if (this.points >= points) {
             this.points -= points;
             arrayListOfUpdates.add(updateButtons.get(numbOfButton));
-            Mode.setRecoveredPerDay((int) (Mode.getRecoveringConstant() * 100)); // TODO: change 100 to this.points
+            Mode.setRecoveredPerDay((int) (Mode.getRecoveringConstant() * 1000)); // TODO: change 100 to this.points
             numberOfPoints.setText("Number of points - " + this.points);
         } else JOptionPane.showMessageDialog(null, "YOU NEED MORE POINTS TO BUY IT");
     }

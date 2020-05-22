@@ -21,8 +21,14 @@ public class MainMenuView extends JFrame {
             PreGameView sw = new PreGameView();
             this.dispose();
         });
-//        TODO: Add highScores listener to b2
-        b3.addActionListener(actionEvent -> this.dispose());
+        b2.addActionListener(actionEvent -> {
+            this.dispose();
+            new HighScoresView(false);
+        });
+        b3.addActionListener(actionEvent -> {
+            this.dispose();
+            System.exit(0);
+        });
 
         jPanel.add(b1,gbc);
         jPanel.add(b2,gbc);
